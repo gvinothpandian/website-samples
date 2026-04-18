@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus AI — Intelligence Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #050a12;
+    --surface: #0c1424;
+    --border: #1a2840;
+    --cyan: #00d4ff;
+    --purple: #7c3aed;
+    --green: #00ff88;
+    --text: #c8d8f0;
+    --muted: #4a6080;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* GRID BG */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%;
+    padding: 1.5rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--border);
+    background: rgba(5,10,18,0.8);
+    backdrop-filter: blur(20px);
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .logo-icon {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 300;
+  }
+  .nav-links a:hover { color: var(--cyan); }
+  .nav-actions { display: flex; gap: 1rem; align-items: center; }
+  .btn-ghost {
+    font-size: 0.75rem;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 0.6rem 1.4rem;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    border-radius: 6px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+  .btn-primary {
+    font-size: 0.75rem;
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    color: white;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10rem 4rem 6rem;
+    text-align: center;
+    position: relative;
+  }
+  .hero-glow {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(124,58,237,0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-glow2 {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 200px;
+    background: radial-gradient(ellipse, rgba(0,212,255,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    border: 1px solid rgba(0,212,255,0.3);
+    background: rgba(0,212,255,0.05);
+    color: var(--cyan);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .badge-dot {
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  .hero-headline {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3.5rem, 7vw, 7rem);
+    font-weight: 800;
+    line-height: 1.0;
+    max-width: 900px;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .grad-text {
+    background: linear-gradient(135deg, var(--cyan), var(--purple), var(--cyan));
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 4s linear infinite;
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-actions {
+    display: flex; gap: 1rem; align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .btn-large {
+    font-size: 0.85rem;
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    color: white;
+    border: none;
+    padding: 0.9rem 2.5rem;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-large:hover { opacity: 0.85; transform: translateY(-2px); }
+  .btn-outline-large {
+    font-size: 0.85rem;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 0.9rem 2.5rem;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    border-radius: 8px;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: border-color 0.2s;
+  }
+  .btn-outline-large:hover { border-color: var(--cyan); }
+
+  /* STATS */
+  .stats {
+    display: flex;
+    justify-content: center; gap: 5rem;
+    margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+    position: relative; z-index: 1;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 300;
+    margin-top: 0.3rem;
+  }
+
+  /* DASHBOARD MOCKUP */
+  .mockup-section {
+    padding: 4rem 4rem 8rem;
+    position: relative;
+  }
+  .mockup-wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 80px rgba(0,212,255,0.08), 0 0 160px rgba(124,58,237,0.05);
+    opacity: 0;
+    animation: fadeUp 1s 0.2s forwards;
+  }
+  .mockup-bar {
+    padding: 1rem 1.5rem;
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .mock-dots { display: flex; gap: 6px; }
+  .mock-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .mock-dot.r { background: #ff5f57; }
+  .mock-dot.y { background: #febc2e; }
+  .mock-dot.g { background: #28c840; }
+  .mock-url {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.3rem 1rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+  }
+  .mockup-body {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    min-height: 400px;
+  }
+  .mock-sidebar {
+    border-right: 1px solid var(--border);
+    padding: 1.5rem 1rem;
+  }
+  .mock-nav-item {
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .mock-nav-item.active { background: rgba(0,212,255,0.08); color: var(--cyan); }
+  .mock-main { padding: 1.5rem; }
+  .mock-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .mock-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .mock-card-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cyan);
+    margin-bottom: 0.3rem;
+  }
+  .mock-card-label { font-size: 0.65rem; color: var(--muted); }
+  .mock-chart {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    height: 160px;
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  .bar {
+    flex: 1;
+    background: linear-gradient(to top, var(--purple), var(--cyan));
+    border-radius: 3px 3px 0 0;
+    opacity: 0.7;
+    animation: barGrow 1s ease-out forwards;
+    transform-origin: bottom;
+  }
+
+  /* FEATURES */
+  .features {
+    padding: 8rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .features-header { text-align: center; margin-bottom: 5rem; }
+  .section-kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.2;
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .feat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .feat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .feat-card:hover { border-color: rgba(0,212,255,0.3); transform: translateY(-4px); }
+  .feat-card:hover::before { opacity: 1; }
+  .feat-icon {
+    width: 48px; height: 48px;
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+  }
+  .feat-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+  }
+  .feat-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; font-weight: 300; }
+
+  /* PRICING */
+  .pricing {
+    padding: 8rem 4rem;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+  .pricing-header { text-align: center; margin-bottom: 4rem; }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .price-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    transition: transform 0.3s;
+    position: relative;
+  }
+  .price-card.featured {
+    border-color: var(--cyan);
+    box-shadow: 0 0 40px rgba(0,212,255,0.1);
+  }
+  .price-card:hover { transform: translateY(-6px); }
+  .price-popular {
+    position: absolute;
+    top: -12px; left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    color: white;
+    font-size: 0.6rem;
+    padding: 0.25rem 1rem;
+    border-radius: 100px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+  .price-plan {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .price-amt {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .price-amt.featured-price {
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .price-period { font-size: 0.8rem; color: var(--muted); margin-bottom: 2rem; }
+  .price-features { list-style: none; margin-bottom: 2.5rem; }
+  .price-features li {
+    font-size: 0.85rem;
+    color: var(--muted);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 0.5rem;
+    font-weight: 300;
+  }
+  .price-features li::before { content: '✓'; color: var(--green); font-size: 0.7rem; }
+  .price-btn {
+    width: 100%;
+    padding: 0.9rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .price-btn.outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .price-btn.outline:hover { border-color: var(--cyan); color: var(--cyan); }
+  .price-btn.filled { background: linear-gradient(135deg, var(--cyan), var(--purple)); border: none; color: white; }
+  .price-btn.filled:hover { opacity: 0.85; }
+
+  /* FOOTER */
+  footer {
+    padding: 4rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .footer-copy {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+  }
+  .footer-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .footer-links a { font-size: 0.75rem; color: var(--muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--cyan); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  @keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+  @keyframes barGrow {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(25px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media(max-width:768px){
+    nav{padding:1.2rem 1.5rem}
+    .nav-links{display:none}
+    .hero{padding:8rem 1.5rem 4rem}
+    .stats{gap:2rem;flex-wrap:wrap;justify-content:flex-start}
+    .mockup-section{padding:2rem 1.5rem 5rem}
+    .mockup-body{grid-template-columns:1fr}
+    .mock-sidebar{display:none}
+    .features{padding:5rem 1.5rem}
+    .features-grid{grid-template-columns:1fr}
+    .pricing{padding:5rem 1.5rem}
+    .pricing-grid{grid-template-columns:1fr;max-width:100%}
+    footer{padding:2.5rem 1.5rem;flex-direction:column;gap:1.5rem;text-align:center}
+    .footer-links{flex-wrap:wrap;justify-content:center}
+    section[style*="padding:8rem 4rem"]{padding:4rem 1.5rem!important}
+    section[style*="padding:6rem 4rem"]{padding:4rem 1.5rem!important}
+  }
+  @media(max-width:480px){
+    .hero{padding:7rem 1.2rem 3rem}
+    .stats{gap:1.5rem}
+    .stat-num{font-size:1.8rem}
+    .mockup-section{padding:1.5rem 1.2rem 4rem}
+    .features{padding:3rem 1.2rem}
+    .pricing{padding:3rem 1.2rem}
+    footer{padding:2rem 1.2rem}
+    section[style*="padding:8rem 4rem"]{padding:3rem 1.2rem!important}
+    section[style*="padding:6rem 4rem"]{padding:3rem 1.2rem!important}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="logo-icon">⚡</div>
+    Nexus AI
+  </div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#">Docs</a></li>
+    <li><a href="#">Blog</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn-ghost">Log In</button>
+    <button class="btn-primary">Get Started →</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <span class="hero-badge"><span class="badge-dot"></span>Now with GPT-5 Integration</span>
+  <h1 class="hero-headline">
+    Build <span class="grad-text">Intelligent</span><br>Products Faster
+  </h1>
+  <p class="hero-sub">The AI infrastructure platform for modern teams. Deploy powerful AI pipelines in minutes, not months.</p>
+  <div class="hero-actions">
+    <button class="btn-large">Start Building Free</button>
+    <button class="btn-outline-large">▶ Watch Demo</button>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">50K+</div><div class="stat-label">Active developers</div></div>
+    <div class="stat"><div class="stat-num">2B+</div><div class="stat-label">API calls / month</div></div>
+    <div class="stat"><div class="stat-num">99.9%</div><div class="stat-label">Uptime SLA</div></div>
+    <div class="stat"><div class="stat-num">140ms</div><div class="stat-label">Avg. latency</div></div>
+  </div>
+</section>
+
+<div class="mockup-section">
+  <div class="mockup-wrap">
+    <div class="mockup-bar">
+      <div class="mock-dots"><div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div></div>
+      <div class="mock-url">app.nexusai.io/dashboard</div>
+    </div>
+    <div class="mockup-body">
+      <div class="mock-sidebar">
+        <div class="mock-nav-item active">⚡ Dashboard</div>
+        <div class="mock-nav-item">🔧 Pipelines</div>
+        <div class="mock-nav-item">📊 Analytics</div>
+        <div class="mock-nav-item">🔑 API Keys</div>
+        <div class="mock-nav-item">⚙️ Settings</div>
+      </div>
+      <div class="mock-main">
+        <div class="mock-grid">
+          <div class="mock-card"><div class="mock-card-val">2.4B</div><div class="mock-card-label">Total API Calls</div></div>
+          <div class="mock-card"><div class="mock-card-val" style="color:var(--green)">99.97%</div><div class="mock-card-label">Uptime This Month</div></div>
+          <div class="mock-card"><div class="mock-card-val" style="color:var(--purple)">$1,240</div><div class="mock-card-label">Monthly Spend</div></div>
+        </div>
+        <div class="mock-chart">
+          <div class="bar" style="height:40%;animation-delay:0s"></div>
+          <div class="bar" style="height:65%;animation-delay:0.1s"></div>
+          <div class="bar" style="height:50%;animation-delay:0.2s"></div>
+          <div class="bar" style="height:80%;animation-delay:0.3s"></div>
+          <div class="bar" style="height:60%;animation-delay:0.4s"></div>
+          <div class="bar" style="height:90%;animation-delay:0.5s"></div>
+          <div class="bar" style="height:75%;animation-delay:0.6s"></div>
+          <div class="bar" style="height:100%;animation-delay:0.7s"></div>
+          <div class="bar" style="height:70%;animation-delay:0.8s"></div>
+          <div class="bar" style="height:85%;animation-delay:0.9s"></div>
+          <div class="bar" style="height:60%;animation-delay:1s"></div>
+          <div class="bar" style="height:95%;animation-delay:1.1s"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="features" id="features">
+  <div class="features-header reveal">
+    <p class="section-kicker">Why Nexus</p>
+    <h2 class="section-title">Everything you need to<br>ship AI faster</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feat-card reveal"><div class="feat-icon">🧠</div><div class="feat-name">Multi-Model Routing</div><div class="feat-desc">Automatically route requests to the best model for each task. Optimize for cost, speed, or quality.</div></div>
+    <div class="feat-card reveal"><div class="feat-icon">⚡</div><div class="feat-name">Edge Inference</div><div class="feat-desc">Deploy models globally across 60+ edge locations. Sub-100ms latency anywhere in the world.</div></div>
+    <div class="feat-card reveal"><div class="feat-icon">🔒</div><div class="feat-name">Enterprise Security</div><div class="feat-desc">SOC 2 Type II, HIPAA compliant. Your data never trains our models. Full audit logs.</div></div>
+    <div class="feat-card reveal"><div class="feat-icon">📊</div><div class="feat-name">Real-time Analytics</div><div class="feat-desc">Monitor usage, costs, and performance. Get alerts before problems become outages.</div></div>
+    <div class="feat-card reveal"><div class="feat-icon">🔗</div><div class="feat-name">Native Integrations</div><div class="feat-desc">Connect to 200+ tools. Slack, Notion, Salesforce, GitHub — plug in, turn on, done.</div></div>
+    <div class="feat-card reveal"><div class="feat-icon">🛠️</div><div class="feat-name">Visual Pipeline Builder</div><div class="feat-desc">Drag-and-drop AI workflow builder. No code required. Ship in hours, not weeks.</div></div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="pricing-header reveal">
+    <p class="section-kicker">Pricing</p>
+    <h2 class="section-title">Simple, transparent pricing</h2>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card reveal">
+      <div class="price-plan">Starter</div>
+      <div class="price-amt">$0</div>
+      <div class="price-period">Free forever</div>
+      <ul class="price-features">
+        <li>100K API calls / mo</li><li>3 pipelines</li><li>Community support</li><li>Basic analytics</li>
+      </ul>
+      <button class="price-btn outline">Get Started</button>
+    </div>
+    <div class="price-card featured reveal">
+      <div class="price-popular">MOST POPULAR</div>
+      <div class="price-plan">Pro</div>
+      <div class="price-amt featured-price">$49</div>
+      <div class="price-period">per month</div>
+      <ul class="price-features">
+        <li>10M API calls / mo</li><li>Unlimited pipelines</li><li>Priority support</li><li>Advanced analytics</li><li>Team collaboration</li>
+      </ul>
+      <button class="price-btn filled">Start Free Trial</button>
+    </div>
+    <div class="price-card reveal">
+      <div class="price-plan">Enterprise</div>
+      <div class="price-amt">Custom</div>
+      <div class="price-period">Contact sales</div>
+      <ul class="price-features">
+        <li>Unlimited API calls</li><li>Dedicated infrastructure</li><li>24/7 SLA support</li><li>Custom contracts</li><li>SSO & SAML</li>
+      </ul>
+      <button class="price-btn outline">Contact Sales</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- FEATURE COMPARISON TABLE -->
+<section style="padding:8rem 4rem;background:#050a12;border-top:1px solid #1a2840;">
+  <p style="font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.2em;color:#00d4ff;text-transform:uppercase;margin-bottom:1rem;">Full Comparison</p>
+  <h2 style="font-family:'Syne',sans-serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:800;margin-bottom:3rem;">Everything You Get</h2>
+  <div style="overflow-x:auto;border-radius:12px;border:1px solid #1a2840;">
+  <table style="width:100%;border-collapse:collapse;background:#0c1424;">
+    <thead>
+      <tr style="border-bottom:1px solid #1a2840;background:rgba(0,212,255,.04);">
+        <th style="padding:1.2rem 1.5rem;text-align:left;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#4a6080;font-weight:400;min-width:200px;">Feature</th>
+        <th style="padding:1.2rem 1.5rem;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#4a6080;font-weight:400;">Starter</th>
+        <th style="padding:1.2rem 1.5rem;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;font-weight:400;color:#00d4ff;background:rgba(0,212,255,.04);">Pro ⭐</th>
+        <th style="padding:1.2rem 1.5rem;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#4a6080;font-weight:400;">Enterprise</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid rgba(255,255,255,.04);">
+        <td style="padding:1rem 1.5rem;color:#c8d8f0;font-size:.9rem;">API Calls / month</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:#4a6080;">100K</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:#00d4ff;background:rgba(0,212,255,.03);">10M</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:#c8d8f0;">Unlimited</td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.01);">
+        <td style="padding:1rem 1.5rem;color:#c8d8f0;font-size:.9rem;">AI Pipelines</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:#4a6080;">3</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:#00d4ff;background:rgba(0,212,255,.03);">Unlimited</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:#c8d8f0;">Unlimited</td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(255,255,255,.04);">
+        <td style="padding:1rem 1.5rem;color:#c8d8f0;font-size:.9rem;">Edge Locations</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#4a6080;font-size:1rem;">—</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:#00d4ff;background:rgba(0,212,255,.03);">20+</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:#c8d8f0;">60+</td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.01);">
+        <td style="padding:1rem 1.5rem;color:#c8d8f0;font-size:.9rem;">Team Seats</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:#4a6080;">1</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:#00d4ff;background:rgba(0,212,255,.03);">10</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:#c8d8f0;">Unlimited</td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(255,255,255,.04);">
+        <td style="padding:1rem 1.5rem;color:#c8d8f0;font-size:.9rem;">Analytics Dashboard</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#4a6080;font-size:.9rem;">Basic</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#00ff88;font-size:1rem;background:rgba(0,212,255,.03);">✓</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#00ff88;font-size:1rem;">✓</td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.01);">
+        <td style="padding:1rem 1.5rem;color:#c8d8f0;font-size:.9rem;">SSO / SAML</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#4a6080;font-size:1rem;">—</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#4a6080;font-size:1rem;background:rgba(0,212,255,.03);">—</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#00ff88;font-size:1rem;">✓</td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(255,255,255,.04);">
+        <td style="padding:1rem 1.5rem;color:#c8d8f0;font-size:.9rem;">Support SLA</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-size:.8rem;color:#4a6080;">Community</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-size:.8rem;color:#00d4ff;background:rgba(0,212,255,.03);">Priority 24h</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-size:.8rem;color:#c8d8f0;">Dedicated 1h</td>
+      </tr>
+      <tr>
+        <td style="padding:1rem 1.5rem;color:#c8d8f0;font-size:.9rem;">Uptime SLA</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-size:.8rem;color:#4a6080;">99.5%</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-size:.8rem;color:#00d4ff;background:rgba(0,212,255,.03);">99.9%</td>
+        <td style="padding:1rem 1.5rem;text-align:center;font-size:.8rem;color:#c8d8f0;">99.99%</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- FAQ ACCORDION -->
+<section style="padding:6rem 4rem;background:#0c1424;border-top:1px solid #1a2840;">
+  <p style="font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.2em;color:#00d4ff;text-transform:uppercase;margin-bottom:1rem;">FAQ</p>
+  <h2 style="font-family:'Syne',sans-serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:800;margin-bottom:3rem;">Common Questions</h2>
+  <div style="max-width:760px;" id="faq">
+    <div class="faq-item" style="border-bottom:1px solid #1a2840;">
+      <button onclick="toggleFaq(this)" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0;background:none;border:none;color:#c8d8f0;font-family:'Syne',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;text-align:left;">
+        Can I switch plans anytime? <span style="color:#00d4ff;font-size:1.3rem;transition:transform .3s;flex-shrink:0;">+</span>
+      </button>
+      <div style="display:none;padding:0 0 1.5rem;color:#4a6080;font-size:.9rem;line-height:1.7;">Yes. Upgrade or downgrade at any time from your dashboard. Changes take effect on your next billing cycle. Unused credits are prorated automatically.</div>
+    </div>
+    <div class="faq-item" style="border-bottom:1px solid #1a2840;">
+      <button onclick="toggleFaq(this)" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0;background:none;border:none;color:#c8d8f0;font-family:'Syne',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;text-align:left;">
+        Does my data train your models? <span style="color:#00d4ff;font-size:1.3rem;transition:transform .3s;flex-shrink:0;">+</span>
+      </button>
+      <div style="display:none;padding:0 0 1.5rem;color:#4a6080;font-size:.9rem;line-height:1.7;">Never. Your prompts, outputs, and data are never used to train our models. All data is encrypted at rest and in transit. Enterprise customers get dedicated infrastructure with zero data sharing.</div>
+    </div>
+    <div class="faq-item" style="border-bottom:1px solid #1a2840;">
+      <button onclick="toggleFaq(this)" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0;background:none;border:none;color:#c8d8f0;font-family:'Syne',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;text-align:left;">
+        What happens if I exceed my API limit? <span style="color:#00d4ff;font-size:1.3rem;transition:transform .3s;flex-shrink:0;">+</span>
+      </button>
+      <div style="display:none;padding:0 0 1.5rem;color:#4a6080;font-size:.9rem;line-height:1.7;">We'll send you alerts at 80% and 95% usage. You can purchase overage packs or upgrade your plan. We won't cut off your service without warning — you always stay in control.</div>
+    </div>
+    <div class="faq-item" style="border-bottom:1px solid #1a2840;">
+      <button onclick="toggleFaq(this)" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0;background:none;border:none;color:#c8d8f0;font-family:'Syne',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;text-align:left;">
+        Is there a free trial for Pro? <span style="color:#00d4ff;font-size:1.3rem;transition:transform .3s;flex-shrink:0;">+</span>
+      </button>
+      <div style="display:none;padding:0 0 1.5rem;color:#4a6080;font-size:.9rem;line-height:1.7;">Yes — 14 days free, no credit card required. Full access to all Pro features. If you don't love it, you're automatically moved to the Starter plan at the end of your trial.</div>
+    </div>
+  </div>
+</section>
+<script>
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const icon = btn.querySelector('span');
+  const isOpen = answer.style.display === 'block';
+  document.querySelectorAll('#faq .faq-item div').forEach(d => d.style.display='none');
+  document.querySelectorAll('#faq .faq-item span').forEach(s => { s.textContent='+'; s.style.transform=''; });
+  if (!isOpen) { answer.style.display='block'; icon.textContent='×'; icon.style.transform='rotate(45deg)'; }
+}
+</script>
+
+<footer>
+  <div class="footer-logo"><div class="logo-icon">⚡</div>Nexus AI</div>
+  <ul class="footer-links">
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#">Status</a></li>
+  </ul>
+  <div class="footer-copy">© 2024 Nexus AI Inc.</div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 100);
+    });
+  }, { threshold: 0.1 }).observe
+  reveals.forEach(el => new IntersectionObserver(e => {
+    e.forEach(en => { if (en.isIntersecting) en.target.classList.add('visible'); });
+  }, { threshold: 0.1 }).observe(el));
+</script>
+</body>
+</html>

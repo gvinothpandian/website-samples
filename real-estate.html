@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian Properties — Luxury Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@200;300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--white:#ffffff;--off:#f8f7f5;--dark:#1c1c1a;--mid:#6b6a65;--border:#e4e2dc;--navy:#1e3a5f;--gold:#c9a84c;--accent:#2563eb}
+  html{scroll-behavior:smooth}
+  body{background:var(--white);color:var(--dark);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+
+  /* NAV */
+  nav{position:sticky;top:0;background:var(--white);border-bottom:1px solid var(--border);padding:0 5rem;display:flex;justify-content:space-between;align-items:center;height:72px;z-index:100}
+  .nav-logo{display:flex;align-items:center;gap:.7rem}
+  .logo-icon{width:32px;height:32px;background:var(--navy);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.8rem;font-family:'DM Mono',monospace;font-weight:400}
+  .logo-text{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--dark)}
+  .nav-links{display:flex;gap:2.5rem;list-style:none}
+  .nav-links a{font-size:.8rem;color:var(--mid);text-decoration:none;font-weight:400;transition:color .2s}
+  .nav-links a:hover{color:var(--dark)}
+  .nav-actions{display:flex;gap:.8rem}
+  .btn-sm{font-size:.75rem;font-family:'DM Sans',sans-serif;padding:.55rem 1.3rem;border-radius:6px;cursor:pointer;font-weight:500;transition:all .2s}
+  .btn-outline-sm{background:transparent;border:1px solid var(--border);color:var(--dark)}
+  .btn-outline-sm:hover{border-color:var(--navy);color:var(--navy)}
+  .btn-navy{background:var(--navy);border:1px solid var(--navy);color:white}
+  .btn-navy:hover{background:#16304f}
+
+  /* HERO */
+  .hero{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 72px)}
+  .hero-left{padding:6rem 5rem;display:flex;flex-direction:column;justify-content:center;background:var(--off)}
+  .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(37,99,235,.08);color:var(--accent);border:1px solid rgba(37,99,235,.2);padding:.35rem .9rem;border-radius:100px;font-size:.7rem;font-weight:500;margin-bottom:2rem;opacity:0;animation:fadeUp .7s .2s forwards}
+  .hero-title{font-family:'DM Serif Display',serif;font-size:clamp(3rem,5.5vw,5rem);line-height:1.05;margin-bottom:1.5rem;opacity:0;animation:fadeUp .7s .35s forwards}
+  .hero-title em{font-style:italic;color:var(--navy)}
+  .hero-sub{font-size:1rem;color:var(--mid);line-height:1.75;max-width:460px;margin-bottom:2.5rem;font-weight:300;opacity:0;animation:fadeUp .7s .5s forwards}
+  .search-bar{display:flex;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;background:white;box-shadow:0 4px 24px rgba(0,0,0,.06);opacity:0;animation:fadeUp .7s .65s forwards}
+  .search-bar input{flex:1;padding:1rem 1.5rem;border:none;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;color:var(--dark)}
+  .search-bar select{border:none;border-left:1px solid var(--border);padding:1rem;font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--mid);background:var(--off);outline:none;cursor:pointer}
+  .search-bar button{background:var(--navy);color:white;border:none;padding:1rem 2rem;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s}
+  .search-bar button:hover{background:#16304f}
+  .hero-stats{display:flex;gap:3rem;margin-top:3rem;padding-top:2.5rem;border-top:1px solid var(--border);opacity:0;animation:fadeUp .7s .8s forwards}
+  .hstat-num{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--navy);line-height:1}
+  .hstat-label{font-size:.72rem;color:var(--mid);margin-top:.2rem;font-weight:300}
+  .hero-right{position:relative;overflow:hidden}
+  .hero-right img{width:100%;height:100%;object-fit:cover}
+  .hero-right::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(30,58,95,.15),transparent);z-index:1}
+  .featured-badge{position:absolute;bottom:2.5rem;left:2.5rem;z-index:2;background:white;padding:1.2rem 1.5rem;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.12);min-width:220px}
+  .feat-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mid);margin-bottom:.5rem}
+  .feat-price{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--navy)}
+  .feat-addr{font-size:.78rem;color:var(--mid);margin-top:.2rem}
+  .feat-chips{display:flex;gap:.4rem;margin-top:.7rem}
+  .feat-chip{background:var(--off);color:var(--mid);padding:.2rem .6rem;border-radius:4px;font-size:.65rem}
+
+  /* LISTINGS */
+  .listings{padding:7rem 5rem;background:var(--off)}
+  .listings-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem}
+  .listings-title{font-family:'DM Serif Display',serif;font-size:2.5rem}
+  .filter-row{display:flex;gap:.5rem}
+  .filter-btn{background:white;border:1px solid var(--border);color:var(--mid);padding:.5rem 1.2rem;border-radius:100px;font-size:.72rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+  .filter-btn.active,.filter-btn:hover{background:var(--navy);border-color:var(--navy);color:white}
+  .prop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+  .prop-card{background:white;border-radius:12px;overflow:hidden;border:1px solid var(--border);transition:transform .3s,box-shadow .3s;cursor:pointer}
+  .prop-card:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,.08)}
+  .prop-img-wrap{position:relative;overflow:hidden;height:220px}
+  .prop-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .prop-card:hover .prop-img-wrap img{transform:scale(1.04)}
+  .prop-status{position:absolute;top:1rem;left:1rem;background:var(--navy);color:white;padding:.3rem .7rem;border-radius:4px;font-size:.62rem;font-weight:600;letter-spacing:.05em}
+  .prop-status.rent{background:#059669}
+  .prop-fav{position:absolute;top:1rem;right:1rem;width:32px;height:32px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:background .2s}
+  .prop-fav:hover{background:var(--off)}
+  .prop-body{padding:1.4rem}
+  .prop-price{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--navy);margin-bottom:.3rem}
+  .prop-addr{font-size:.82rem;color:var(--mid);margin-bottom:.8rem}
+  .prop-chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+  .prop-chip{background:var(--off);color:var(--dark);padding:.22rem .6rem;border-radius:4px;font-size:.65rem;font-weight:500}
+  .prop-footer{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid var(--border)}
+  .prop-agent{display:flex;align-items:center;gap:.5rem;font-size:.72rem;color:var(--mid)}
+  .agent-dot{width:24px;height:24px;border-radius:50%;background:var(--navy);color:white;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:600;flex-shrink:0}
+  .prop-btn{font-size:.65rem;color:var(--accent);border:1px solid rgba(37,99,235,.25);padding:.3rem .8rem;border-radius:4px;background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+  .prop-btn:hover{background:var(--accent);color:white;border-color:var(--accent)}
+
+  /* LISTINGS TABLE */
+  .table-section{padding:6rem 5rem;background:var(--white)}
+  .table-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2rem}
+  .tbl-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+  table.prop-tbl{width:100%;border-collapse:collapse;background:var(--white)}
+  .prop-tbl thead tr{background:var(--off);border-bottom:1px solid var(--border)}
+  .prop-tbl th{padding:1rem 1.5rem;text-align:left;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);font-weight:500;white-space:nowrap}
+  .prop-tbl th:nth-child(4),.prop-tbl th:nth-child(5),.prop-tbl th:nth-child(6){text-align:center}
+  .prop-tbl th:last-child{text-align:right}
+  .prop-tbl td{padding:1.1rem 1.5rem;border-bottom:1px solid var(--border);vertical-align:middle;font-size:.88rem}
+  .prop-tbl tr:last-child td{border-bottom:none}
+  .prop-tbl tr:hover td{background:var(--off)}
+  .tbl-address{font-weight:500;color:var(--dark)}
+  .tbl-type{font-size:.7rem;color:var(--mid)}
+  .tbl-price{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--navy);text-align:right;white-space:nowrap}
+  .tbl-center{text-align:center;color:var(--mid);font-size:.82rem}
+  .status-pill{display:inline-block;padding:.2rem .7rem;border-radius:100px;font-size:.65rem;font-weight:600}
+  .status-pill.sale{background:rgba(30,58,95,.08);color:var(--navy)}
+  .status-pill.rent{background:rgba(5,150,105,.08);color:#059669}
+  .status-pill.sold{background:rgba(107,114,128,.08);color:#6b7280}
+  .tbl-action{color:var(--accent);font-size:.75rem;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;font-weight:500;text-decoration:none}
+
+  /* AGENTS */
+  .agents{padding:7rem 5rem;background:var(--off)}
+  .agents-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem}
+  .agent-card{background:white;border-radius:12px;padding:2rem;border:1px solid var(--border);text-align:center;transition:transform .3s}
+  .agent-card:hover{transform:translateY(-4px)}
+  .agent-avatar{width:72px;height:72px;border-radius:50%;object-fit:cover;margin:0 auto 1rem;display:block;border:3px solid var(--off)}
+  .agent-name{font-family:'DM Serif Display',serif;font-size:1.1rem;margin-bottom:.2rem}
+  .agent-title{font-size:.72rem;color:var(--mid);margin-bottom:.8rem}
+  .agent-stats{display:flex;justify-content:center;gap:1.5rem;margin-bottom:1rem;padding:1rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .agent-stat-num{font-weight:600;font-size:.9rem;color:var(--navy)}
+  .agent-stat-label{font-size:.6rem;color:var(--mid)}
+  .agent-contact{font-size:.72rem;color:var(--accent);cursor:pointer}
+
+  /* FOOTER */
+  footer{background:var(--navy);padding:5rem;color:rgba(255,255,255,.7)}
+  .footer-inner{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:4rem;margin-bottom:3rem}
+  .footer-brand{font-family:'DM Serif Display',serif;font-size:1.6rem;color:white;margin-bottom:.8rem}
+  .footer-tag{font-size:.8rem;line-height:1.7;font-weight:300;max-width:260px}
+  .footer-col-h{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;font-weight:500}
+  .footer-col ul{list-style:none}
+  .footer-col li{font-size:.8rem;margin-bottom:.7rem;cursor:pointer;transition:color .2s}
+  .footer-col li:hover{color:white}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:2rem;display:flex;justify-content:space-between;font-size:.72rem;color:rgba(255,255,255,.3)}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.visible{opacity:1;transform:none}
+
+  @media(max-width:768px){
+    nav{padding:0 1.5rem;height:64px}
+    .nav-links{display:none}
+    .nav-actions .btn-outline-sm{display:none}
+    .hero{grid-template-columns:1fr;min-height:auto}
+    .hero-left{padding:4rem 1.5rem}
+    .hero-right{height:320px}
+    .featured-badge{min-width:0;width:calc(100% - 3rem);left:1.5rem;right:1.5rem}
+    .search-bar{flex-direction:column;border-radius:8px}
+    .search-bar input{border-radius:8px 8px 0 0}
+    .search-bar select{border-left:none;border-top:1px solid var(--border)}
+    .search-bar button{border-radius:0 0 8px 8px}
+    .hero-stats{gap:1.5rem;flex-wrap:wrap}
+    .listings{padding:4rem 1.5rem}
+    .listings-header{flex-direction:column;align-items:flex-start;gap:1rem}
+    .filter-row{flex-wrap:wrap}
+    .prop-grid{grid-template-columns:1fr}
+    .table-section{padding:4rem 1.5rem}
+    .agents{padding:4rem 1.5rem}
+    .agents-grid{grid-template-columns:repeat(2,1fr)}
+    .footer-inner{grid-template-columns:1fr 1fr;gap:2rem}
+    footer{padding:3rem 1.5rem}
+    .footer-bottom{flex-direction:column;gap:.5rem}
+  }
+  @media(max-width:480px){
+    .hero-left{padding:3rem 1.2rem}
+    .listings{padding:3rem 1.2rem}
+    .prop-grid{grid-template-columns:1fr}
+    .table-section{padding:3rem 1.2rem}
+    .agents{padding:3rem 1.2rem}
+    .agents-grid{grid-template-columns:1fr}
+    .footer-inner{grid-template-columns:1fr}
+    footer{padding:2.5rem 1.2rem}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="logo-icon">M</div>
+    <span class="logo-text">Meridian</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#listings">Buy</a></li>
+    <li><a href="#listings">Rent</a></li>
+    <li><a href="#table-section">All Listings</a></li>
+    <li><a href="#agents">Agents</a></li>
+    <li><a href="#">Sell</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn-sm btn-outline-sm">Sign In</button>
+    <button class="btn-sm btn-navy">List a Property</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <span class="hero-badge">🏆 #1 Agency in New York 2024</span>
+    <h1 class="hero-title">Find Your<br><em>Perfect Home</em></h1>
+    <p class="hero-sub">Over 2,400 premium properties across Manhattan, Brooklyn, and the Hamptons. Expert agents, seamless process, exceptional results.</p>
+    <div class="search-bar">
+      <input type="text" placeholder="Search by address, neighborhood, or ZIP...">
+      <select>
+        <option>Buy</option><option>Rent</option><option>Sell</option>
+      </select>
+      <button>Search</button>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hstat-num">2,400+</div><div class="hstat-label">Active Listings</div></div>
+      <div><div class="hstat-num">$4.2B</div><div class="hstat-label">Sold in 2024</div></div>
+      <div><div class="hstat-num">98%</div><div class="hstat-label">Client Satisfaction</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80" alt="Luxury home">
+    <div class="featured-badge">
+      <div class="feat-label">Featured Property</div>
+      <div class="feat-price">$4,250,000</div>
+      <div class="feat-addr">18 Park Ave, Manhattan</div>
+      <div class="feat-chips">
+        <span class="feat-chip">4 bed</span>
+        <span class="feat-chip">3 bath</span>
+        <span class="feat-chip">2,800 sqft</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="listings" id="listings">
+  <div class="listings-header reveal">
+    <div>
+      <p style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mid);margin-bottom:.5rem">Handpicked</p>
+      <h2 class="listings-title">Featured Listings</h2>
+    </div>
+    <div class="filter-row">
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">For Sale</button>
+      <button class="filter-btn">For Rent</button>
+      <button class="filter-btn">New</button>
+    </div>
+  </div>
+  <div class="prop-grid">
+    <div class="prop-card reveal">
+      <div class="prop-img-wrap">
+        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80" alt="Property">
+        <span class="prop-status">For Sale</span>
+        <span class="prop-fav">♡</span>
+      </div>
+      <div class="prop-body">
+        <div class="prop-price">$3,850,000</div>
+        <div class="prop-addr">42 West 77th Street, Manhattan, NY</div>
+        <div class="prop-chips"><span class="prop-chip">5 Bed</span><span class="prop-chip">4 Bath</span><span class="prop-chip">3,200 sqft</span><span class="prop-chip">Terrace</span></div>
+        <div class="prop-footer">
+          <div class="prop-agent"><span class="agent-dot">JR</span>James Reid</div>
+          <button class="prop-btn">View Details</button>
+        </div>
+      </div>
+    </div>
+    <div class="prop-card reveal">
+      <div class="prop-img-wrap">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80" alt="Property">
+        <span class="prop-status rent">For Rent</span>
+        <span class="prop-fav">♡</span>
+      </div>
+      <div class="prop-body">
+        <div class="prop-price">$18,500 <span style="font-size:.8rem;font-family:'DM Sans',sans-serif;color:var(--mid)">/mo</span></div>
+        <div class="prop-addr">8 Brooklyn Heights Promenade</div>
+        <div class="prop-chips"><span class="prop-chip">3 Bed</span><span class="prop-chip">2 Bath</span><span class="prop-chip">1,850 sqft</span><span class="prop-chip">River View</span></div>
+        <div class="prop-footer">
+          <div class="prop-agent"><span class="agent-dot">SK</span>Sarah Kim</div>
+          <button class="prop-btn">View Details</button>
+        </div>
+      </div>
+    </div>
+    <div class="prop-card reveal">
+      <div class="prop-img-wrap">
+        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80" alt="Property">
+        <span class="prop-status">For Sale</span>
+        <span class="prop-fav">♡</span>
+      </div>
+      <div class="prop-body">
+        <div class="prop-price">$7,200,000</div>
+        <div class="prop-addr">The Hamptons, East Hampton, NY</div>
+        <div class="prop-chips"><span class="prop-chip">6 Bed</span><span class="prop-chip">5 Bath</span><span class="prop-chip">5,400 sqft</span><span class="prop-chip">Pool</span></div>
+        <div class="prop-footer">
+          <div class="prop-agent"><span class="agent-dot">MP</span>Michael Park</div>
+          <button class="prop-btn">View Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LISTINGS TABLE -->
+<section class="table-section" id="table-section">
+  <div class="table-header reveal">
+    <div>
+      <p style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mid);margin-bottom:.5rem">All Properties</p>
+      <h2 style="font-family:'DM Serif Display',serif;font-size:2.2rem;">Active Listings</h2>
+    </div>
+    <button class="btn-sm btn-navy">Download CSV</button>
+  </div>
+  <div class="tbl-wrap reveal">
+    <table class="prop-tbl">
+      <thead><tr>
+        <th>Property</th>
+        <th>Type</th>
+        <th>Neighborhood</th>
+        <th style="text-align:center">Beds</th>
+        <th style="text-align:center">Baths</th>
+        <th style="text-align:center">Sqft</th>
+        <th>Status</th>
+        <th style="text-align:right">Price</th>
+        <th></th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><div class="tbl-address">18 Park Avenue #14B</div><div class="tbl-type">Penthouse</div></td>
+          <td style="color:var(--mid);font-size:.82rem">Condo</td>
+          <td style="color:var(--mid);font-size:.82rem">Midtown East</td>
+          <td class="tbl-center">4</td>
+          <td class="tbl-center">3.5</td>
+          <td class="tbl-center">2,800</td>
+          <td><span class="status-pill sale">For Sale</span></td>
+          <td class="tbl-price">$4,250,000</td>
+          <td><button class="tbl-action">View →</button></td>
+        </tr>
+        <tr>
+          <td><div class="tbl-address">42 West 77th Street</div><div class="tbl-type">Townhouse</div></td>
+          <td style="color:var(--mid);font-size:.82rem">Multi-family</td>
+          <td style="color:var(--mid);font-size:.82rem">Upper West Side</td>
+          <td class="tbl-center">5</td>
+          <td class="tbl-center">4</td>
+          <td class="tbl-center">3,200</td>
+          <td><span class="status-pill sale">For Sale</span></td>
+          <td class="tbl-price">$3,850,000</td>
+          <td><button class="tbl-action">View →</button></td>
+        </tr>
+        <tr>
+          <td><div class="tbl-address">8 Brooklyn Heights Prom.</div><div class="tbl-type">Apartment</div></td>
+          <td style="color:var(--mid);font-size:.82rem">Co-op</td>
+          <td style="color:var(--mid);font-size:.82rem">Brooklyn Heights</td>
+          <td class="tbl-center">3</td>
+          <td class="tbl-center">2</td>
+          <td class="tbl-center">1,850</td>
+          <td><span class="status-pill rent">For Rent</span></td>
+          <td class="tbl-price">$18,500/mo</td>
+          <td><button class="tbl-action">View →</button></td>
+        </tr>
+        <tr>
+          <td><div class="tbl-address">East Hampton Estate</div><div class="tbl-type">Single Family</div></td>
+          <td style="color:var(--mid);font-size:.82rem">House</td>
+          <td style="color:var(--mid);font-size:.82rem">The Hamptons</td>
+          <td class="tbl-center">6</td>
+          <td class="tbl-center">5</td>
+          <td class="tbl-center">5,400</td>
+          <td><span class="status-pill sale">For Sale</span></td>
+          <td class="tbl-price">$7,200,000</td>
+          <td><button class="tbl-action">View →</button></td>
+        </tr>
+        <tr>
+          <td><div class="tbl-address">220 Central Park South</div><div class="tbl-type">Luxury Condo</div></td>
+          <td style="color:var(--mid);font-size:.82rem">Condo</td>
+          <td style="color:var(--mid);font-size:.82rem">Central Park South</td>
+          <td class="tbl-center">3</td>
+          <td class="tbl-center">3</td>
+          <td class="tbl-center">2,100</td>
+          <td><span class="status-pill sold">Sold</span></td>
+          <td class="tbl-price">$9,800,000</td>
+          <td><button class="tbl-action" style="color:var(--mid);">Details →</button></td>
+        </tr>
+        <tr>
+          <td><div class="tbl-address">1 Hudson Yards #28C</div><div class="tbl-type">New Development</div></td>
+          <td style="color:var(--mid);font-size:.82rem">Condo</td>
+          <td style="color:var(--mid);font-size:.82rem">Hudson Yards</td>
+          <td class="tbl-center">2</td>
+          <td class="tbl-center">2</td>
+          <td class="tbl-center">1,420</td>
+          <td><span class="status-pill sale">For Sale</span></td>
+          <td class="tbl-price">$2,650,000</td>
+          <td><button class="tbl-action">View →</button></td>
+        </tr>
+        <tr>
+          <td><div class="tbl-address">88 Greenwich Street #5</div><div class="tbl-type">Loft</div></td>
+          <td style="color:var(--mid);font-size:.82rem">Condo</td>
+          <td style="color:var(--mid);font-size:.82rem">Tribeca</td>
+          <td class="tbl-center">4</td>
+          <td class="tbl-center">3</td>
+          <td class="tbl-center">2,950</td>
+          <td><span class="status-pill rent">For Rent</span></td>
+          <td class="tbl-price">$28,000/mo</td>
+          <td><button class="tbl-action">View →</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="agents" id="agents">
+  <div class="reveal" style="text-align:center">
+    <p style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mid);margin-bottom:.5rem">Our Team</p>
+    <h2 style="font-family:'DM Serif Display',serif;font-size:2.5rem;">Meet the Agents</h2>
+  </div>
+  <div class="agents-grid">
+    <div class="agent-card reveal">
+      <img class="agent-avatar" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80" alt="Agent">
+      <div class="agent-name">James Reid</div>
+      <div class="agent-title">Senior Broker · Manhattan</div>
+      <div class="agent-stats">
+        <div><div class="agent-stat-num">148</div><div class="agent-stat-label">Sold</div></div>
+        <div><div class="agent-stat-num">$890M</div><div class="agent-stat-label">Volume</div></div>
+      </div>
+      <div class="agent-contact">Contact James →</div>
+    </div>
+    <div class="agent-card reveal">
+      <img class="agent-avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&q=80" alt="Agent">
+      <div class="agent-name">Sarah Kim</div>
+      <div class="agent-title">Broker · Brooklyn</div>
+      <div class="agent-stats">
+        <div><div class="agent-stat-num">92</div><div class="agent-stat-label">Sold</div></div>
+        <div><div class="agent-stat-num">$340M</div><div class="agent-stat-label">Volume</div></div>
+      </div>
+      <div class="agent-contact">Contact Sarah →</div>
+    </div>
+    <div class="agent-card reveal">
+      <img class="agent-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80" alt="Agent">
+      <div class="agent-name">Michael Park</div>
+      <div class="agent-title">Luxury Specialist · Hamptons</div>
+      <div class="agent-stats">
+        <div><div class="agent-stat-num">64</div><div class="agent-stat-label">Sold</div></div>
+        <div><div class="agent-stat-num">$1.2B</div><div class="agent-stat-label">Volume</div></div>
+      </div>
+      <div class="agent-contact">Contact Michael →</div>
+    </div>
+    <div class="agent-card reveal">
+      <img class="agent-avatar" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&q=80" alt="Agent">
+      <div class="agent-name">Lisa Torres</div>
+      <div class="agent-title">Associate Broker · Tribeca</div>
+      <div class="agent-stats">
+        <div><div class="agent-stat-num">77</div><div class="agent-stat-label">Sold</div></div>
+        <div><div class="agent-stat-num">$510M</div><div class="agent-stat-label">Volume</div></div>
+      </div>
+      <div class="agent-contact">Contact Lisa →</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Meridian</div>
+      <p class="footer-tag">New York's most trusted real estate agency. Buying, selling, and renting premium properties since 2001.</p>
+    </div>
+    <div class="footer-col"><div class="footer-col-h">Buy & Rent</div><ul><li>For Sale</li><li>For Rent</li><li>New Developments</li><li>Luxury</li></ul></div>
+    <div class="footer-col"><div class="footer-col-h">Sell</div><ul><li>Get a Valuation</li><li>List a Property</li><li>Our Process</li><li>Success Stories</li></ul></div>
+    <div class="footer-col"><div class="footer-col-h">Company</div><ul><li>About Us</li><li>Agents</li><li>Careers</li><li>Contact</li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2024 Meridian Properties LLC. All rights reserved.</span><span>Licensed in New York · DRE# 12345678</span></div>
+</footer>
+
+<script>
+document.querySelectorAll('.filter-btn').forEach(btn=>btn.addEventListener('click',function(){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')}));
+const reveals=document.querySelectorAll('.reveal');
+reveals.forEach(el=>new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible')})},{threshold:.1}).observe(el));
+</script>
+</body>
+</html>

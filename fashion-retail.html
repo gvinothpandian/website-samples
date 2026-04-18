@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAUX — Fashion</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Archivo+Narrow:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white: #f8f5f0;
+    --black: #0a0a0a;
+    --red: #d92b1a;
+    --gray: #888;
+    --lightgray: #e0dbd4;
+  }
+
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: 'Archivo Narrow', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 3rem;
+    background: var(--white);
+    border-bottom: 2px solid var(--black);
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.2em;
+    color: var(--black);
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--black);
+    text-decoration: none;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -3px; left: 0; width: 0; height: 2px;
+    background: var(--red);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cart {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    background: var(--black);
+    color: var(--white);
+    padding: 0.6rem 1.5rem;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s;
+  }
+  .nav-cart:hover { background: var(--red); }
+
+  /* HERO */
+  .hero {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 55% 45%;
+    padding-top: 80px;
+    border-bottom: 2px solid var(--black);
+  }
+  .hero-content {
+    padding: 5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 2px solid var(--black);
+    position: relative;
+  }
+  .hero-issue {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--gray);
+    margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-issue::before {
+    content: '';
+    width: 30px; height: 2px;
+    background: var(--red);
+  }
+  .hero-headline {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(5rem, 10vw, 10rem);
+    line-height: 0.85;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: slideIn 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .hero-headline .accent { color: var(--red); }
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--gray);
+    line-height: 1.6;
+    max-width: 400px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: slideIn 0.8s 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem;
+    opacity: 0;
+    animation: slideIn 0.8s 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .btn-primary {
+    background: var(--black);
+    color: var(--white);
+    padding: 1rem 2.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    border: 2px solid var(--black);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: var(--red); border-color: var(--red); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--black);
+    padding: 1rem 2.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    border: 2px solid var(--black);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { background: var(--black); color: var(--white); }
+
+  .hero-counter {
+    position: absolute;
+    bottom: 3rem; left: 3rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--gray);
+  }
+  .hero-img-wrap {
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transform: scale(1.05);
+    animation: zoomIn 1s ease-out forwards;
+  }
+  .hero-label {
+    position: absolute;
+    top: 3rem; right: 3rem;
+    background: var(--red);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    animation: fadeIn 1s 1s forwards;
+    opacity: 0;
+  }
+
+  /* TICKER */
+  .ticker {
+    background: var(--black);
+    overflow: hidden;
+    padding: 0.8rem 0;
+    border-bottom: 2px solid var(--black);
+  }
+  .ticker-inner {
+    display: flex;
+    animation: ticker 25s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-inner span {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--white);
+    padding: 0 2rem;
+    text-transform: uppercase;
+  }
+  .ticker-inner .tick-sep { color: var(--red); }
+
+  /* COLLECTION */
+  .collection {
+    padding: 6rem 3rem;
+    border-bottom: 2px solid var(--black);
+  }
+  .section-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    margin-bottom: 4rem;
+    border-bottom: 2px solid var(--black);
+    padding-bottom: 2rem;
+  }
+  .section-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 8rem;
+    line-height: 1;
+    color: var(--lightgray);
+  }
+  .section-title-block {
+    text-align: right;
+  }
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    letter-spacing: 0.05em;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+  .product-card {
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .product-card:hover { border-color: var(--black); }
+  .product-card img {
+    width: 100%; height: 380px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  .product-card:hover img { transform: scale(1.04); }
+  .product-info {
+    padding: 1.2rem;
+    border-top: 2px solid var(--black);
+  }
+  .product-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+  }
+  .product-cat {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--gray);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .product-price {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.2rem;
+    color: var(--red);
+  }
+  .product-card .badge {
+    position: absolute;
+    top: 1rem; left: 1rem;
+    background: var(--red);
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    padding: 0.25rem 0.5rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* FEATURE STRIP */
+  .feature-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 2px solid var(--black);
+  }
+  .feature-item {
+    padding: 4rem 3rem;
+    border-right: 2px solid var(--black);
+  }
+  .feature-item:last-child { border-right: none; }
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .feature-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.8rem;
+  }
+  .feature-body {
+    font-size: 0.9rem;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+
+  /* LOOKBOOK */
+  .lookbook {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 400px 400px;
+    gap: 2px;
+    border-bottom: 2px solid var(--black);
+  }
+  .look-item {
+    overflow: hidden;
+    position: relative;
+  }
+  .look-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    filter: grayscale(20%);
+  }
+  .look-item:hover img {
+    transform: scale(1.05);
+    filter: grayscale(0%);
+  }
+  .look-item:first-child { grid-row: span 2; }
+  .look-label {
+    position: absolute;
+    bottom: 1.5rem; left: 1.5rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    color: var(--white);
+    letter-spacing: 0.1em;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    color: var(--white);
+    padding: 4rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 3rem;
+  }
+  .footer-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    letter-spacing: 0.2em;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+  .footer-tagline {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gray);
+    letter-spacing: 0.15em;
+  }
+  .footer-col-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+    color: var(--red);
+  }
+  .footer-links { list-style: none; }
+  .footer-links li {
+    margin-bottom: 0.8rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+    cursor: pointer;
+  }
+  .footer-links li:hover { color: var(--white); }
+  .footer-bottom {
+    grid-column: span 4;
+    border-top: 1px solid #222;
+    padding-top: 2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--gray);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes zoomIn {
+    from { transform: scale(1.1); }
+    to { transform: scale(1); }
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media(max-width:768px){
+    nav{padding:1.2rem 1.5rem}
+    .nav-links{display:none}
+    .hero{grid-template-columns:1fr;height:auto;padding-top:60px}
+    .hero-content{padding:3rem 1.5rem;border-right:none}
+    .hero-img-wrap{height:360px}
+    .collection{padding:4rem 1.5rem}
+    .section-header{grid-template-columns:1fr;gap:1rem}
+    .section-num{font-size:4rem}
+    .section-title-block{text-align:left}
+    .product-grid{grid-template-columns:repeat(2,1fr)}
+    .product-card img{height:260px}
+    .feature-strip{grid-template-columns:1fr}
+    .feature-item{border-right:none;border-bottom:2px solid var(--black);padding:2.5rem 1.5rem}
+    .lookbook{grid-template-rows:300px 220px 220px}
+    footer{grid-template-columns:1fr 1fr;padding:3rem 1.5rem;gap:2rem}
+    .footer-bottom{grid-column:span 2;flex-direction:column;gap:.5rem}
+    section[style*="grid-template-columns:1fr 1fr"]{padding:4rem 1.5rem!important;display:block!important}
+    section[style*="grid-template-columns:1fr 1fr"] > div{margin-bottom:3rem}
+  }
+  @media(max-width:480px){
+    .hero-content{padding:2.5rem 1.2rem}
+    .hero-headline{font-size:clamp(3.5rem,15vw,5rem)}
+    .product-grid{grid-template-columns:1fr}
+    .product-card img{height:300px}
+    .collection{padding:3rem 1.2rem}
+    .lookbook{grid-template-columns:1fr;grid-template-rows:auto}
+    .look-item:first-child{grid-row:span 1}
+    .look-item img{min-height:240px}
+    footer{grid-template-columns:1fr;padding:2.5rem 1.2rem}
+    .footer-bottom{grid-column:span 1}
+    section[style*="grid-template-columns:1fr 1fr"]{padding:2.5rem 1.2rem!important}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">VAUX</div>
+  <ul class="nav-links">
+    <li><a href="#collection">Collection</a></li>
+    <li><a href="#lookbook">Lookbook</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <button class="nav-cart">Bag (0)</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-issue">SS — 2025</div>
+    <h1 class="hero-headline">
+      New<br><span class="accent">Bold.</span><br>Season.
+    </h1>
+    <p class="hero-sub">Uncompromising design for those who refuse to blend in. The Spring/Summer 2025 collection is here.</p>
+    <div class="hero-btns">
+      <button class="btn-primary">Shop Collection</button>
+      <button class="btn-secondary">View Lookbook</button>
+    </div>
+    <div class="hero-counter">01 / 06</div>
+  </div>
+  <div class="hero-img-wrap">
+    <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80" alt="Fashion">
+    <div class="hero-label">NEW ARRIVAL</div>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>Free shipping over $150</span><span class="tick-sep"> // </span>
+    <span>New SS25 Collection</span><span class="tick-sep"> // </span>
+    <span>Sustainable Materials</span><span class="tick-sep"> // </span>
+    <span>30-Day Returns</span><span class="tick-sep"> // </span>
+    <span>Worldwide Shipping</span><span class="tick-sep"> // </span>
+    <span>Free shipping over $150</span><span class="tick-sep"> // </span>
+    <span>New SS25 Collection</span><span class="tick-sep"> // </span>
+    <span>Sustainable Materials</span><span class="tick-sep"> // </span>
+    <span>30-Day Returns</span><span class="tick-sep"> // </span>
+    <span>Worldwide Shipping</span><span class="tick-sep"> // </span>
+  </div>
+</div>
+
+<section class="collection" id="collection">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div class="section-title-block">
+      <div class="section-label">Spring / Summer 2025</div>
+      <div class="section-title">New Arrivals</div>
+    </div>
+  </div>
+  <div class="product-grid">
+    <div class="product-card reveal">
+      <div class="badge">NEW</div>
+      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&q=80" alt="Jacket">
+      <div class="product-info">
+        <div class="product-cat">Outerwear</div>
+        <div class="product-name">Arc Trench Coat</div>
+        <div class="product-price">$348</div>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <img src="https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=500&q=80" alt="Hoodie">
+      <div class="product-info">
+        <div class="product-cat">Tops</div>
+        <div class="product-name">Form Oversized Tee</div>
+        <div class="product-price">$89</div>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="badge">SALE</div>
+      <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&q=80" alt="Pants">
+      <div class="product-info">
+        <div class="product-cat">Bottoms</div>
+        <div class="product-name">Wide Cargo Pants</div>
+        <div class="product-price">$165</div>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500&q=80" alt="Sneakers">
+      <div class="product-info">
+        <div class="product-cat">Footwear</div>
+        <div class="product-name">Clean Platform Shoe</div>
+        <div class="product-price">$220</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="feature-strip">
+  <div class="feature-item reveal">
+    <div class="feature-icon">⚡</div>
+    <div class="feature-head">Fast Delivery</div>
+    <div class="feature-body">Orders shipped within 24 hours. Express worldwide delivery available.</div>
+  </div>
+  <div class="feature-item reveal">
+    <div class="feature-icon">♻️</div>
+    <div class="feature-head">Sustainable</div>
+    <div class="feature-body">100% recycled packaging. Ethically produced in certified factories.</div>
+  </div>
+  <div class="feature-item reveal">
+    <div class="feature-icon">↩️</div>
+    <div class="feature-head">Easy Returns</div>
+    <div class="feature-body">Changed your mind? 30-day hassle-free returns, no questions asked.</div>
+  </div>
+</div>
+
+<div class="lookbook" id="lookbook">
+  <div class="look-item">
+    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80" alt="Look 1">
+    <div class="look-label">SS25 EDITORIAL</div>
+  </div>
+  <div class="look-item">
+    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80" alt="Look 2">
+    <div class="look-label">OVERSIZED</div>
+  </div>
+  <div class="look-item">
+    <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&q=80" alt="Look 3">
+    <div class="look-label">MONOCHROME</div>
+  </div>
+  <div class="look-item">
+    <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&q=80" alt="Look 4">
+    <div class="look-label">STREET</div>
+  </div>
+  <div class="look-item">
+    <img src="https://images.unsplash.com/photo-1504198458649-3128b932f49e?w=400&q=80" alt="Look 5">
+    <div class="look-label">MINIMAL</div>
+  </div>
+</div>
+
+
+<!-- SIZE GUIDE TABLE -->
+<section style="padding:6rem 3rem;background:#f8f5f0;border-bottom:2px solid #0a0a0a;">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;">
+    <div>
+      <div style="font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.2em;color:#d92b1a;text-transform:uppercase;margin-bottom:.8rem;">Sizing Guide</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:3.5rem;letter-spacing:.05em;margin-bottom:2rem;">Find Your Fit</h2>
+      <p style="font-size:.9rem;color:#888;line-height:1.7;margin-bottom:2rem;">All measurements in inches. When between sizes, size up for a relaxed fit or size down for a slim fit.</p>
+      <div style="overflow-x:auto;border:2px solid #0a0a0a;">
+      <table style="width:100%;border-collapse:collapse;background:white;">
+        <thead>
+          <tr style="background:#0a0a0a;color:#f8f5f0;">
+            <th style="padding:.8rem 1rem;text-align:left;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;font-weight:400;">Size</th>
+            <th style="padding:.8rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;font-weight:400;">Chest</th>
+            <th style="padding:.8rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;font-weight:400;">Waist</th>
+            <th style="padding:.8rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;font-weight:400;">Hip</th>
+            <th style="padding:.8rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;font-weight:400;">Inseam</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #e0dbd4;">
+            <td style="padding:.9rem 1rem;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.05em;color:#d92b1a;">XS</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">32–34</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">26–28</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">34–36</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">30</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e0dbd4;background:#fafafa;">
+            <td style="padding:.9rem 1rem;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.05em;color:#d92b1a;">S</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">35–37</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">29–31</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">37–39</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">30.5</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e0dbd4;">
+            <td style="padding:.9rem 1rem;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.05em;color:#d92b1a;">M</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">38–40</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">32–34</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">40–42</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">31</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e0dbd4;background:#fafafa;">
+            <td style="padding:.9rem 1rem;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.05em;color:#d92b1a;">L</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">41–43</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">35–37</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">43–45</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">31.5</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e0dbd4;">
+            <td style="padding:.9rem 1rem;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.05em;color:#d92b1a;">XL</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">44–46</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">38–40</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">46–48</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">32</td>
+          </tr>
+          <tr>
+            <td style="padding:.9rem 1rem;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.05em;color:#d92b1a;">XXL</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">47–50</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">41–44</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">49–52</td>
+            <td style="padding:.9rem 1rem;text-align:center;font-family:'Space Mono',monospace;font-size:.75rem;color:#444;">32.5</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.2em;color:#d92b1a;text-transform:uppercase;margin-bottom:.8rem;">Newsletter</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:3.5rem;letter-spacing:.05em;margin-bottom:1rem;">First Access.<br>Always.</h2>
+      <p style="font-size:.9rem;color:#888;line-height:1.7;margin-bottom:2rem;">New drops land in your inbox before they hit the site. No spam, just the good stuff.</p>
+      <div style="display:flex;border:2px solid #0a0a0a;overflow:hidden;">
+        <input type="email" placeholder="your@email.com" style="flex:1;padding:1rem;border:none;font-family:'Space Mono',monospace;font-size:.75rem;outline:none;background:#f8f5f0;">
+        <button style="background:#0a0a0a;color:#f8f5f0;border:none;padding:1rem 1.5rem;font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;">Join</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem;">
+        <div style="padding:1.5rem;border:2px solid #0a0a0a;">
+          <div style="font-family:'Anton',sans-serif;font-size:2rem;color:#d92b1a;">48h</div>
+          <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-top:.3rem;">Early Access</div>
+        </div>
+        <div style="padding:1.5rem;border:2px solid #0a0a0a;">
+          <div style="font-family:'Anton',sans-serif;font-size:2rem;color:#d92b1a;">15%</div>
+          <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-top:.3rem;">First Order</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div class="footer-brand">VAUX</div>
+    <div class="footer-tagline">DARE TO STAND OUT</div>
+  </div>
+  <div>
+    <div class="footer-col-title">Shop</div>
+    <ul class="footer-links">
+      <li>New Arrivals</li><li>Tops</li><li>Bottoms</li><li>Outerwear</li><li>Footwear</li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Info</div>
+    <ul class="footer-links">
+      <li>About</li><li>Sustainability</li><li>Careers</li><li>Press</li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Help</div>
+    <ul class="footer-links">
+      <li>Shipping</li><li>Returns</li><li>Size Guide</li><li>Contact</li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 VAUX. All rights reserved.</span>
+    <span>Privacy · Terms · Cookies</span>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 120);
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

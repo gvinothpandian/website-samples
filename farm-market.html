@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fieldroot — Farm Fresh Market</title>
+<link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Source+Sans+3:wght@200;300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --soil: #2c1a0e;
+    --bark: #5c3d1e;
+    --wheat: #f0e4c8;
+    --sage: #6b8c5a;
+    --leaf: #4a7040;
+    --tomato: #c94a2b;
+    --cream: #faf6ed;
+    --mud: #9c7a5b;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--soil);
+    font-family: 'Source Sans 3', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Wavy top pattern */
+  .wave-divider {
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+  }
+  .wave-divider svg { display: block; }
+
+  /* NAV */
+  nav {
+    background: var(--soil);
+    padding: 1.5rem 5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo {
+    font-family: 'Yeseva One', serif;
+    font-size: 1.8rem;
+    color: var(--wheat);
+    letter-spacing: 0.02em;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .nav-logo span { color: var(--sage); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240,228,200,0.6);
+    text-decoration: none;
+    transition: color 0.3s;
+    font-weight: 300;
+  }
+  .nav-links a:hover { color: var(--sage); }
+  .nav-order {
+    background: var(--sage);
+    color: var(--cream);
+    border: none;
+    padding: 0.7rem 1.8rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+    border-radius: 2px;
+  }
+  .nav-order:hover { background: var(--leaf); }
+
+  /* HERO */
+  .hero {
+    min-height: 90vh;
+    background: url('https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=1600&q=80') center/cover no-repeat;
+    position: relative;
+    display: flex; align-items: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(105deg, rgba(44,26,14,0.85) 40%, rgba(44,26,14,0.3) 100%);
+  }
+  .hero-inner {
+    position: relative; z-index: 2;
+    padding: 6rem 5rem;
+    max-width: 650px;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(107,140,90,0.3);
+    border: 1px solid rgba(107,140,90,0.5);
+    color: var(--sage);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-title {
+    font-family: 'Yeseva One', serif;
+    font-size: clamp(3.5rem, 6.5vw, 6.5rem);
+    color: var(--wheat);
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-title .green { color: var(--sage); }
+  .hero-sub {
+    font-family: 'Lora', serif;
+    font-size: 1.1rem;
+    color: rgba(240,228,200,0.75);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    font-weight: 400;
+    font-style: italic;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-actions {
+    display: flex; gap: 1.2rem; align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .btn-green {
+    background: var(--sage);
+    color: var(--cream);
+    border: none;
+    padding: 1rem 2.5rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.3s;
+  }
+  .btn-green:hover { background: var(--leaf); transform: translateY(-2px); }
+  .btn-outline-light {
+    background: transparent;
+    color: var(--wheat);
+    border: 1.5px solid rgba(240,228,200,0.4);
+    padding: 1rem 2.5rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: border-color 0.3s;
+  }
+  .btn-outline-light:hover { border-color: var(--sage); color: var(--sage); }
+
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 3rem; left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.2s forwards;
+  }
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--sage), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+  .scroll-text {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(240,228,200,0.5);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  /* TRUST BAR */
+  .trust-bar {
+    background: var(--wheat);
+    padding: 2rem 5rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 2px solid rgba(92,61,30,0.1);
+  }
+  .trust-item {
+    display: flex; align-items: center; gap: 0.8rem;
+    font-size: 0.8rem;
+    color: var(--bark);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .trust-icon { font-size: 1.5rem; }
+
+  /* SEASON */
+  .season {
+    padding: 8rem 5rem;
+    background: var(--cream);
+  }
+  .season-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 4rem;
+  }
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'Yeseva One', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    color: var(--soil);
+    line-height: 1.15;
+  }
+  .view-all {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage);
+    text-decoration: none;
+    border-bottom: 1px solid var(--sage);
+    padding-bottom: 2px;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  .produce-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+  .produce-card {
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 20px rgba(44,26,14,0.06);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  .produce-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(44,26,14,0.12);
+  }
+  .produce-img {
+    width: 100%; height: 200px;
+    object-fit: cover;
+    transition: transform 0.5s;
+  }
+  .produce-card:hover .produce-img { transform: scale(1.04); }
+  .produce-body { padding: 1.2rem; }
+  .produce-origin {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mud);
+    margin-bottom: 0.4rem;
+    font-weight: 400;
+  }
+  .produce-name {
+    font-family: 'Lora', serif;
+    font-size: 1.1rem;
+    color: var(--soil);
+    margin-bottom: 0.3rem;
+  }
+  .produce-desc {
+    font-size: 0.8rem;
+    color: var(--mud);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    font-weight: 300;
+  }
+  .produce-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .produce-price {
+    font-family: 'Yeseva One', serif;
+    font-size: 1.2rem;
+    color: var(--tomato);
+  }
+  .add-btn {
+    width: 32px; height: 32px;
+    background: var(--sage);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .add-btn:hover { background: var(--leaf); }
+
+  /* FARM STORY */
+  .farm {
+    padding: 8rem 5rem;
+    background: var(--wheat);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7rem;
+    align-items: center;
+  }
+  .farm-imgs {
+    position: relative;
+    height: 550px;
+  }
+  .farm-img-main {
+    width: 80%; height: 85%;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  .farm-img-sm {
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 50%; height: 45%;
+    object-fit: cover;
+    border: 5px solid var(--wheat);
+    border-radius: 4px;
+  }
+  .farm-badge {
+    position: absolute;
+    top: 2rem; right: 2rem;
+    background: var(--tomato);
+    color: white;
+    font-family: 'Yeseva One', serif;
+    font-size: 0.9rem;
+    padding: 0.8rem 1.2rem;
+    border-radius: 3px;
+    text-align: center;
+    line-height: 1.3;
+  }
+  .farm-badge small { font-family: 'Source Sans 3', sans-serif; font-size: 0.6rem; display: block; letter-spacing: 0.15em; font-weight: 300; }
+  .farm-text {}
+  .farm-quote {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--bark);
+    line-height: 1.7;
+    border-left: 3px solid var(--sage);
+    padding-left: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .farm-body {
+    font-size: 1rem;
+    color: var(--bark);
+    line-height: 1.9;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+  .farm-sig {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--soil);
+    margin-top: 1.5rem;
+  }
+
+  /* RECIPES */
+  .recipes {
+    padding: 8rem 5rem;
+    background: var(--soil);
+  }
+  .recipes-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .recipes-header .section-label { color: var(--sage); }
+  .recipes-header .section-title { color: var(--wheat); }
+  .recipe-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .recipe-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .recipe-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    min-height: 300px;
+    transition: transform 0.5s, filter 0.5s;
+    filter: brightness(0.65);
+  }
+  .recipe-card:hover img {
+    transform: scale(1.05);
+    filter: brightness(0.5);
+  }
+  .recipe-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 2rem;
+    background: linear-gradient(transparent, rgba(44,26,14,0.9));
+  }
+  .recipe-cat {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 0.5rem;
+  }
+  .recipe-name {
+    font-family: 'Lora', serif;
+    font-size: 1.3rem;
+    color: var(--wheat);
+    line-height: 1.3;
+    margin-bottom: 0.3rem;
+  }
+  .recipe-meta { font-size: 0.75rem; color: rgba(240,228,200,0.5); }
+
+  /* NEWSLETTER */
+  .newsletter {
+    background: var(--sage);
+    padding: 6rem 5rem;
+    text-align: center;
+  }
+  .newsletter-title {
+    font-family: 'Yeseva One', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    color: var(--cream);
+    margin-bottom: 1rem;
+  }
+  .newsletter-sub {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: rgba(250,246,237,0.7);
+    margin-bottom: 2.5rem;
+  }
+  .newsletter-form {
+    display: flex;
+    max-width: 480px;
+    margin: 0 auto;
+    gap: 0;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .newsletter-input {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border: none;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.9rem;
+    background: white;
+    color: var(--soil);
+    outline: none;
+  }
+  .newsletter-btn {
+    background: var(--soil);
+    color: var(--wheat);
+    border: none;
+    padding: 1rem 2rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .newsletter-btn:hover { background: var(--bark); }
+
+  /* FOOTER */
+  footer {
+    background: var(--soil);
+    padding: 5rem 5rem 3rem;
+    color: rgba(240,228,200,0.5);
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+  }
+  .footer-brand {
+    font-family: 'Yeseva One', serif;
+    font-size: 2rem;
+    color: var(--wheat);
+    margin-bottom: 1rem;
+  }
+  .footer-tagline { font-size: 0.85rem; line-height: 1.7; font-weight: 300; }
+  .footer-col-title {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.8rem; font-size: 0.85rem; cursor: pointer; transition: color 0.2s; font-weight: 300; }
+  .footer-links li:hover { color: var(--wheat); }
+  .footer-bottom {
+    border-top: 1px solid rgba(240,228,200,0.08);
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 1; transform: scaleY(1); }
+    50% { opacity: 0.3; transform: scaleY(0.5); }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media(max-width:768px){
+    nav{padding:1.2rem 1.5rem}
+    .nav-links{display:none}
+    .hero-inner{padding:4rem 1.5rem;max-width:100%}
+    .hero-scroll-hint{display:none}
+    .trust-bar{padding:1.5rem;flex-wrap:wrap;gap:1rem;justify-content:flex-start}
+    .trust-item{flex:0 0 calc(50% - .5rem)}
+    .season{padding:5rem 1.5rem}
+    .season-header{flex-direction:column;align-items:flex-start;gap:1rem}
+    .produce-grid{grid-template-columns:repeat(2,1fr)}
+    .farm{grid-template-columns:1fr;padding:5rem 1.5rem;gap:3rem}
+    .farm-imgs{height:320px}
+    .farm-img-sm{display:none}
+    .recipes{padding:5rem 1.5rem}
+    .recipe-grid{grid-template-columns:1fr}
+    .recipe-card img{min-height:260px}
+    .newsletter{padding:4rem 1.5rem}
+    .footer-top{grid-template-columns:1fr 1fr;gap:2rem}
+    footer{padding:3rem 1.5rem}
+    .footer-bottom{flex-direction:column;gap:.5rem}
+    section[style*="padding:6rem 5rem"]{padding:4rem 1.5rem!important}
+  }
+  @media(max-width:480px){
+    .hero-inner{padding:3rem 1.2rem}
+    .trust-item{flex:0 0 100%}
+    .produce-grid{grid-template-columns:1fr}
+    .season{padding:3rem 1.2rem}
+    .farm{padding:3rem 1.2rem}
+    .recipes{padding:3rem 1.2rem}
+    .newsletter{padding:3rem 1.2rem}
+    .footer-top{grid-template-columns:1fr}
+    footer{padding:2.5rem 1.2rem}
+    section[style*="padding:6rem 5rem"]{padding:2.5rem 1.2rem!important}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Field<span>root</span></div>
+  <ul class="nav-links">
+    <li><a href="#season">Shop</a></li>
+    <li><a href="#farm">Our Farm</a></li>
+    <li><a href="#">Recipes</a></li>
+    <li><a href="#">Delivery</a></li>
+  </ul>
+  <button class="nav-order">Order Now</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">🌿 Harvest Week — September</span>
+    <h1 class="hero-title">Farm to Your<br>Table in <span class="green">24hrs</span></h1>
+    <p class="hero-sub">Grown with care, harvested at dawn, on your doorstep by evening. Because fresh should mean <em>actually fresh</em>.</p>
+    <div class="hero-actions">
+      <button class="btn-green">Shop This Week's Harvest</button>
+      <button class="btn-outline-light">Our Story</button>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <div class="scroll-text">Scroll</div>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="trust-bar">
+  <div class="trust-item"><span class="trust-icon">🌱</span>100% Certified Organic</div>
+  <div class="trust-item"><span class="trust-icon">🚜</span>Direct from 12 Local Farms</div>
+  <div class="trust-item"><span class="trust-icon">📦</span>Zero-Waste Packaging</div>
+  <div class="trust-item"><span class="trust-icon">⏰</span>Next-Day Delivery</div>
+</div>
+
+<section class="season" id="season">
+  <div class="season-header reveal">
+    <div>
+      <p class="section-label">🍂 This Week's Harvest</p>
+      <h2 class="section-title">In Season Right Now</h2>
+    </div>
+    <a href="#" class="view-all">View All Produce →</a>
+  </div>
+  <div class="produce-grid">
+    <div class="produce-card reveal">
+      <img class="produce-img" src="https://images.unsplash.com/photo-1518977676405-782e2144a7f5?w=400&q=80" alt="Potatoes">
+      <div class="produce-body">
+        <div class="produce-origin">Hartwell Farm, Vermont</div>
+        <div class="produce-name">Heirloom Potatoes</div>
+        <div class="produce-desc">Nutty, buttery Yukon golds — perfect for roasting.</div>
+        <div class="produce-footer">
+          <div class="produce-price">$4.50 / lb</div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="produce-card reveal">
+      <img class="produce-img" src="https://images.unsplash.com/photo-1587049633312-d628ae50a8ae?w=400&q=80" alt="Tomatoes">
+      <div class="produce-body">
+        <div class="produce-origin">Sunrise Valley, NY</div>
+        <div class="produce-name">Heirloom Tomatoes</div>
+        <div class="produce-desc">A rainbow of varieties, each bursting with flavor.</div>
+        <div class="produce-footer">
+          <div class="produce-price">$6.00 / lb</div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="produce-card reveal">
+      <img class="produce-img" src="https://images.unsplash.com/photo-1550828520-4cb496926fc9?w=400&q=80" alt="Greens">
+      <div class="produce-body">
+        <div class="produce-origin">Blue Ridge Gardens, VA</div>
+        <div class="produce-name">Mixed Salad Greens</div>
+        <div class="produce-desc">Baby arugula, mizuna, and oak leaf — just picked.</div>
+        <div class="produce-footer">
+          <div class="produce-price">$5.50 / bag</div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="produce-card reveal">
+      <img class="produce-img" src="https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=400&q=80" alt="Apples">
+      <div class="produce-body">
+        <div class="produce-origin">Stone Creek Orchard, MA</div>
+        <div class="produce-name">Honeycrisp Apples</div>
+        <div class="produce-desc">Sweet, crisp perfection — classic New England autumn.</div>
+        <div class="produce-footer">
+          <div class="produce-price">$3.00 / lb</div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="farm" id="farm">
+  <div class="farm-imgs reveal">
+    <img class="farm-img-main" src="https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?w=700&q=80" alt="Farm">
+    <img class="farm-img-sm" src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400&q=80" alt="Vegetables">
+    <div class="farm-badge">12<br><small>LOCAL<br>FARMS</small></div>
+  </div>
+  <div class="reveal">
+    <p class="section-label">Our Story</p>
+    <h2 class="section-title" style="margin-bottom:1.5rem">Grown with love,<br>not chemicals</h2>
+    <div class="farm-quote">"We believe the best food comes from the most honest hands — people who know their soil like an old friend."</div>
+    <p class="farm-body">Fieldroot was born in 2017 when a group of small farmers and food lovers realized that the distance from farm to table had grown too long, too complicated, and too cold.</p>
+    <p class="farm-body">We partner exclusively with family farms within 200 miles, paying above-market prices and building relationships that last seasons, not just transactions.</p>
+    <div class="farm-sig">— Margaret & Tom Fields, Founders</div>
+  </div>
+</section>
+
+<section class="recipes">
+  <div class="recipes-header reveal">
+    <p class="section-label">Seasonal Cooking</p>
+    <h2 class="section-title">From Our Kitchen</h2>
+  </div>
+  <div class="recipe-grid">
+    <div class="recipe-card reveal">
+      <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&q=80" alt="Soup">
+      <div class="recipe-info">
+        <div class="recipe-cat">Featured Recipe</div>
+        <div class="recipe-name">Roasted Heirloom Tomato Soup with Grilled Sourdough</div>
+        <div class="recipe-meta">45 min · Easy · Serves 4</div>
+      </div>
+    </div>
+    <div class="recipe-card reveal">
+      <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" alt="Salad">
+      <div class="recipe-info">
+        <div class="recipe-cat">Salads</div>
+        <div class="recipe-name">Harvest Grain Bowl</div>
+        <div class="recipe-meta">20 min · Easy</div>
+      </div>
+    </div>
+    <div class="recipe-card reveal">
+      <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400&q=80" alt="Dessert">
+      <div class="recipe-info">
+        <div class="recipe-cat">Desserts</div>
+        <div class="recipe-name">Apple Galette</div>
+        <div class="recipe-meta">60 min · Medium</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="newsletter">
+  <h2 class="newsletter-title reveal">Get This Week's Harvest List</h2>
+  <p class="newsletter-sub reveal">Each Thursday we send what's freshest, recipes, and farm stories.</p>
+  <div class="newsletter-form reveal">
+    <input class="newsletter-input" type="email" placeholder="your@email.com">
+    <button class="newsletter-btn">Subscribe</button>
+  </div>
+</div>
+
+
+<!-- HARVEST AVAILABILITY TABLE -->
+<section style="padding:6rem 5rem;background:#2c1a0e;">
+  <p style="font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:#6b8c5a;font-weight:600;margin-bottom:.8rem;">Weekly Availability</p>
+  <h2 style="font-family:'Yeseva One',serif;font-size:clamp(2rem,3.5vw,3rem);color:#f0e4c8;margin-bottom:3rem;">This Week's <span style="color:#6b8c5a;">Harvest Table</span></h2>
+  <div style="overflow-x:auto;border-radius:4px;border:1px solid rgba(107,140,90,.2);">
+  <table style="width:100%;border-collapse:collapse;background:#1e1209;">
+    <thead>
+      <tr style="border-bottom:1px solid rgba(107,140,90,.25);background:rgba(107,140,90,.08);">
+        <th style="padding:1rem 1.5rem;text-align:left;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#6b8c5a;font-weight:600;">Produce</th>
+        <th style="padding:1rem 1.5rem;text-align:left;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#6b8c5a;font-weight:600;">Farm</th>
+        <th style="padding:1rem 1.5rem;text-align:center;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#6b8c5a;font-weight:600;">Mon–Wed</th>
+        <th style="padding:1rem 1.5rem;text-align:center;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#6b8c5a;font-weight:600;">Thu–Fri</th>
+        <th style="padding:1rem 1.5rem;text-align:center;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#6b8c5a;font-weight:600;">Weekend</th>
+        <th style="padding:1rem 1.5rem;text-align:right;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#6b8c5a;font-weight:600;">Price</th>
+        <th style="padding:1rem 1.5rem;text-align:center;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#6b8c5a;font-weight:600;">Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+        <td style="padding:1rem 1.5rem;color:#f0e4c8;font-family:'Lora',serif;font-size:1rem;">Heirloom Tomatoes</td>
+        <td style="padding:1rem 1.5rem;font-size:.78rem;color:#9c7a5b;">Sunrise Valley, NY</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#6b8c5a;font-size:1.1rem;">✓</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#6b8c5a;font-size:1.1rem;">✓</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#6b8c5a;font-size:1.1rem;">✓</td>
+        <td style="padding:1rem 1.5rem;text-align:right;font-family:'Source Sans 3',sans-serif;font-weight:600;color:#f0e4c8;">$6 / lb</td>
+        <td style="padding:1rem 1.5rem;text-align:center;"><span style="background:rgba(107,140,90,.2);color:#6b8c5a;padding:.2rem .7rem;border-radius:100px;font-size:.65rem;font-weight:600;letter-spacing:.05em;">In Stock</span></td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,.02);">
+        <td style="padding:1rem 1.5rem;color:#f0e4c8;font-family:'Lora',serif;font-size:1rem;">Heirloom Potatoes</td>
+        <td style="padding:1rem 1.5rem;font-size:.78rem;color:#9c7a5b;">Hartwell Farm, VT</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#6b8c5a;font-size:1.1rem;">✓</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#6b8c5a;font-size:1.1rem;">✓</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#6b8c5a;font-size:1.1rem;">✓</td>
+        <td style="padding:1rem 1.5rem;text-align:right;font-family:'Source Sans 3',sans-serif;font-weight:600;color:#f0e4c8;">$4.50 / lb</td>
+        <td style="padding:1rem 1.5rem;text-align:center;"><span style="background:rgba(107,140,90,.2);color:#6b8c5a;padding:.2rem .7rem;border-radius:100px;font-size:.65rem;font-weight:600;">In Stock</span></td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+        <td style="padding:1rem 1.5rem;color:#f0e4c8;font-family:'Lora',serif;font-size:1rem;">Honeycrisp Apples</td>
+        <td style="padding:1rem 1.5rem;font-size:.78rem;color:#9c7a5b;">Stone Creek Orchard, MA</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#6b8c5a;font-size:1.1rem;">✓</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#6b8c5a;font-size:1.1rem;">✓</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#9c7a5b;">Sat only</td>
+        <td style="padding:1rem 1.5rem;text-align:right;font-family:'Source Sans 3',sans-serif;font-weight:600;color:#f0e4c8;">$3 / lb</td>
+        <td style="padding:1rem 1.5rem;text-align:center;"><span style="background:rgba(201,168,76,.15);color:#c9a84c;padding:.2rem .7rem;border-radius:100px;font-size:.65rem;font-weight:600;">Low Stock</span></td>
+      </tr>
+      <tr style="border-bottom:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,.02);">
+        <td style="padding:1rem 1.5rem;color:#f0e4c8;font-family:'Lora',serif;font-size:1rem;">Mixed Salad Greens</td>
+        <td style="padding:1rem 1.5rem;font-size:.78rem;color:#9c7a5b;">Blue Ridge, VA</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#9c7a5b;">—</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#6b8c5a;font-size:1.1rem;">✓</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#6b8c5a;font-size:1.1rem;">✓</td>
+        <td style="padding:1rem 1.5rem;text-align:right;font-family:'Source Sans 3',sans-serif;font-weight:600;color:#f0e4c8;">$5.50 / bag</td>
+        <td style="padding:1rem 1.5rem;text-align:center;"><span style="background:rgba(107,140,90,.2);color:#6b8c5a;padding:.2rem .7rem;border-radius:100px;font-size:.65rem;font-weight:600;">In Stock</span></td>
+      </tr>
+      <tr>
+        <td style="padding:1rem 1.5rem;color:#f0e4c8;font-family:'Lora',serif;font-size:1rem;">Wild Mushrooms</td>
+        <td style="padding:1rem 1.5rem;font-size:.78rem;color:#9c7a5b;">Forest Floor Farm, NH</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#9c7a5b;">—</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#9c7a5b;">—</td>
+        <td style="padding:1rem 1.5rem;text-align:center;color:#6b8c5a;font-size:1.1rem;">✓</td>
+        <td style="padding:1rem 1.5rem;text-align:right;font-family:'Source Sans 3',sans-serif;font-weight:600;color:#f0e4c8;">$12 / lb</td>
+        <td style="padding:1rem 1.5rem;text-align:center;"><span style="background:rgba(201,68,43,.15);color:#c94a2b;padding:.2rem .7rem;border-radius:100px;font-size:.65rem;font-weight:600;">Seasonal</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <p style="font-size:.72rem;color:#6b8c5a;margin-top:1rem;">✓ Available for delivery · Updated every Sunday evening · Quantities limited.</p>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">Fieldroot</div>
+      <p class="footer-tagline">Connecting people with the farms and farmers who grow their food. Fresh, fair, and full of flavor.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Shop</div>
+      <ul class="footer-links"><li>This Week's Harvest</li><li>Produce Boxes</li><li>Herbs & Flowers</li><li>Pantry</li></ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Learn</div>
+      <ul class="footer-links"><li>Our Farms</li><li>Recipes</li><li>Seasonal Guide</li><li>Blog</li></ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Help</div>
+      <ul class="footer-links"><li>Delivery Info</li><li>FAQ</li><li>Contact Us</li><li>Careers</li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 Fieldroot Co. All rights reserved.</span>
+    <span>Sustainably grown · Zero waste packaging · Carbon neutral delivery</span>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  reveals.forEach(el => new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 }).observe(el));
+</script>
+</body>
+</html>

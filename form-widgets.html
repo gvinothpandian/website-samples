@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Widgets — UI/UX Showcase</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1f2e;
+    --card: #202536;
+    --border: #2d3548;
+    --blue: #3b82f6;
+    --blue-dim: #1d4ed8;
+    --green: #22c55e;
+    --red: #ef4444;
+    --yellow: #eab308;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --white: #f8fafc;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* GRID BG */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0;
+    background: rgba(15,17,23,.9);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 100;
+  }
+  .nav-logo {
+    font-size: 1rem; font-weight: 700; color: var(--white);
+    display: flex; align-items: center; gap: .5rem;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--blue); }
+  .nav-back {
+    font-size: .8rem; color: var(--muted); text-decoration: none;
+    display: flex; align-items: center; gap: .4rem; transition: color .2s;
+  }
+  .nav-back:hover { color: var(--blue); }
+
+  /* HERO */
+  .page-hero {
+    padding: 5rem 3rem 3rem;
+    max-width: 1100px; margin: 0 auto;
+    position: relative; z-index: 1;
+  }
+  .page-hero-badge {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: rgba(59,130,246,.1);
+    border: 1px solid rgba(59,130,246,.25);
+    color: #93c5fd;
+    font-size: .72rem; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: .35rem .9rem; border-radius: 30px; margin-bottom: 1.5rem;
+  }
+  .page-hero h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800; color: var(--white);
+    letter-spacing: -.5px; margin-bottom: 1rem;
+  }
+  .page-hero p {
+    font-size: 1rem; color: var(--muted);
+    max-width: 560px; line-height: 1.75;
+  }
+
+  /* SECTION LAYOUT */
+  .section {
+    max-width: 1100px; margin: 0 auto;
+    padding: 3rem 3rem;
+    position: relative; z-index: 1;
+  }
+  .section + .section { border-top: 1px solid var(--border); }
+
+  .section-label {
+    font-size: .65rem; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--blue);
+    font-weight: 700; margin-bottom: .5rem;
+  }
+  .section-title {
+    font-size: 1.4rem; font-weight: 700;
+    color: var(--white); margin-bottom: .4rem;
+  }
+  .section-desc {
+    font-size: .85rem; color: var(--muted);
+    margin-bottom: 2rem; max-width: 560px;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 2rem;
+  }
+  .card + .card { margin-top: 1.5rem; }
+
+  /* GRID HELPERS */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+  /* ─── FORM ELEMENTS ─── */
+  label {
+    display: block;
+    font-size: .78rem; font-weight: 600;
+    color: var(--text); margin-bottom: .4rem;
+    letter-spacing: .02em;
+  }
+  .label-required::after { content: ' *'; color: var(--red); }
+
+  .field { margin-bottom: 1.4rem; }
+
+  input[type="text"], input[type="email"], input[type="password"],
+  input[type="number"], input[type="tel"], input[type="url"],
+  input[type="date"], input[type="time"], input[type="search"],
+  select, textarea {
+    width: 100%;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: .88rem;
+    padding: .65rem 1rem;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+  }
+  input::placeholder, textarea::placeholder { color: var(--muted); }
+  textarea { resize: vertical; min-height: 110px; }
+  select { cursor: pointer; }
+  select option { background: var(--card); }
+
+  /* Input with icon */
+  .input-wrap { position: relative; }
+  .input-wrap input { padding-left: 2.6rem; }
+  .input-icon {
+    position: absolute; left: .85rem; top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem; pointer-events: none;
+    color: var(--muted);
+  }
+  .input-wrap.right input { padding-left: 1rem; padding-right: 2.6rem; }
+  .input-icon-right {
+    position: absolute; right: .85rem; top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem; pointer-events: none;
+    color: var(--muted);
+  }
+
+  /* State variants */
+  input.is-valid { border-color: var(--green); }
+  input.is-valid:focus { box-shadow: 0 0 0 3px rgba(34,197,94,.15); }
+  input.is-error { border-color: var(--red); }
+  input.is-error:focus { box-shadow: 0 0 0 3px rgba(239,68,68,.15); }
+  .hint-text { font-size: .72rem; margin-top: .35rem; color: var(--muted); }
+  .hint-text.error { color: var(--red); }
+  .hint-text.success { color: var(--green); }
+
+  /* Disabled */
+  input:disabled, select:disabled, textarea:disabled {
+    opacity: .45; cursor: not-allowed;
+  }
+
+  /* ─── CHECKBOXES & RADIOS ─── */
+  .check-group { display: flex; flex-direction: column; gap: .6rem; }
+  .check-item {
+    display: flex; align-items: center; gap: .75rem;
+    cursor: pointer; font-size: .88rem; color: var(--text);
+  }
+  .check-item input[type="checkbox"],
+  .check-item input[type="radio"] {
+    width: 18px; height: 18px;
+    border-radius: 4px;
+    padding: 0;
+    flex-shrink: 0;
+    accent-color: var(--blue);
+    cursor: pointer;
+  }
+  .check-item input[type="radio"] { border-radius: 50%; }
+
+  /* ─── TOGGLE SWITCH ─── */
+  .toggle-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .toggle-row:last-child { border-bottom: none; }
+  .toggle-label { font-size: .88rem; font-weight: 500; }
+  .toggle-sub { font-size: .75rem; color: var(--muted); margin-top: .1rem; }
+  .toggle {
+    width: 44px; height: 24px;
+    background: var(--border);
+    border-radius: 100px;
+    position: relative; cursor: pointer;
+    transition: background .25s;
+    flex-shrink: 0;
+    border: none;
+  }
+  .toggle::after {
+    content: '';
+    width: 18px; height: 18px;
+    background: white;
+    border-radius: 50%;
+    position: absolute; top: 3px; left: 3px;
+    transition: transform .25s;
+  }
+  .toggle.on { background: var(--blue); }
+  .toggle.on::after { transform: translateX(20px); }
+
+  /* ─── RANGE SLIDER ─── */
+  .range-row { display: flex; align-items: center; gap: 1rem; }
+  input[type="range"] {
+    flex: 1; padding: 0;
+    height: 4px; border: none;
+    border-radius: 100px;
+    background: var(--border);
+    accent-color: var(--blue);
+    cursor: pointer;
+  }
+  .range-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .85rem; color: var(--blue);
+    min-width: 2.5rem; text-align: right;
+  }
+
+  /* ─── TAGS INPUT ─── */
+  .tags-wrap {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: .5rem .75rem;
+    display: flex; flex-wrap: wrap; gap: .4rem;
+    align-items: center;
+    min-height: 46px;
+    cursor: text;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .tags-wrap:focus-within {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+  }
+  .tag-pill {
+    display: inline-flex; align-items: center; gap: .3rem;
+    background: rgba(59,130,246,.15);
+    border: 1px solid rgba(59,130,246,.3);
+    color: #93c5fd;
+    padding: .18rem .55rem;
+    border-radius: 100px;
+    font-size: .72rem; font-weight: 600;
+  }
+  .tag-pill button {
+    background: none; border: none; cursor: pointer;
+    color: #93c5fd; font-size: .75rem; line-height: 1;
+    padding: 0;
+  }
+  .tags-wrap input {
+    flex: 1; min-width: 80px;
+    background: none; border: none;
+    padding: .15rem 0;
+    font-size: .85rem; color: var(--text);
+    box-shadow: none !important;
+    border-radius: 0;
+  }
+
+  /* ─── SELECT WITH SEARCH (custom) ─── */
+  .select-custom { position: relative; }
+  .select-custom select {
+    padding-right: 2.5rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right .85rem center;
+  }
+
+  /* ─── BUTTON STYLES ─── */
+  .btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .65rem 1.5rem;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: .82rem; font-weight: 600;
+    cursor: pointer; border: none;
+    transition: all .2s;
+    text-decoration: none;
+  }
+  .btn-primary { background: var(--blue); color: white; }
+  .btn-primary:hover { background: var(--blue-dim); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(59,130,246,.3); }
+  .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+  .btn-danger { background: rgba(239,68,68,.1); color: var(--red); border: 1px solid rgba(239,68,68,.25); }
+  .btn-danger:hover { background: var(--red); color: white; }
+  .btn-success { background: rgba(34,197,94,.1); color: var(--green); border: 1px solid rgba(34,197,94,.25); }
+  .btn-success:hover { background: var(--green); color: #052e16; }
+  .btn-full { width: 100%; justify-content: center; }
+  .btn-lg { padding: .85rem 2rem; font-size: .9rem; }
+  .btn-sm { padding: .4rem 1rem; font-size: .75rem; border-radius: 6px; }
+  .btn:disabled { opacity: .4; cursor: not-allowed; transform: none !important; }
+
+  /* Loading spinner in button */
+  .btn-loading::after {
+    content: '';
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin .6s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ─── MULTI-STEP FORM ─── */
+  .step-bar { display: flex; align-items: center; gap: 0; margin-bottom: 2.5rem; }
+  .step {
+    display: flex; align-items: center; gap: .5rem;
+    flex: 1;
+  }
+  .step:last-child { flex: 0; }
+  .step-circle {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--border);
+    color: var(--muted);
+    font-size: .75rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all .3s;
+  }
+  .step.active .step-circle { background: var(--blue); color: white; box-shadow: 0 0 0 4px rgba(59,130,246,.2); }
+  .step.done .step-circle { background: var(--green); color: white; }
+  .step-name { font-size: .72rem; color: var(--muted); font-weight: 500; }
+  .step.active .step-name { color: var(--text); }
+  .step.done .step-name { color: var(--green); }
+  .step-line { flex: 1; height: 2px; background: var(--border); margin: 0 .5rem; }
+  .step-line.done { background: var(--green); }
+
+  .step-panel { display: none; }
+  .step-panel.active { display: block; animation: fadeIn .25s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+
+  .step-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+
+  /* ─── SEARCH AUTOCOMPLETE ─── */
+  .autocomplete-wrap { position: relative; }
+  .dropdown-list {
+    position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.4);
+    z-index: 10;
+    overflow: hidden;
+  }
+  .dropdown-item {
+    padding: .65rem 1rem;
+    font-size: .85rem;
+    cursor: pointer;
+    display: flex; align-items: center; gap: .6rem;
+    transition: background .15s;
+  }
+  .dropdown-item:hover, .dropdown-item.highlighted { background: rgba(59,130,246,.1); color: var(--blue); }
+  .dropdown-item .match { color: var(--blue); font-weight: 700; }
+  .dropdown-sep {
+    font-size: .65rem; text-transform: uppercase; letter-spacing: .15em;
+    color: var(--muted); padding: .5rem 1rem .25rem;
+  }
+
+  /* ─── UPLOAD ZONE ─── */
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+  }
+  .upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--blue);
+    background: rgba(59,130,246,.04);
+  }
+  .upload-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .upload-title { font-size: .9rem; font-weight: 600; color: var(--white); margin-bottom: .3rem; }
+  .upload-sub { font-size: .78rem; color: var(--muted); }
+  .upload-zone input[type="file"] { display: none; }
+  .file-list { margin-top: 1rem; display: flex; flex-direction: column; gap: .5rem; }
+  .file-item {
+    display: flex; align-items: center; gap: .75rem;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: .6rem 1rem;
+    font-size: .8rem;
+  }
+  .file-icon { font-size: 1.2rem; }
+  .file-name { flex: 1; color: var(--text); font-weight: 500; }
+  .file-size { color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: .72rem; }
+  .file-remove { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 1rem; transition: color .2s; }
+  .file-remove:hover { color: var(--red); }
+
+  /* Progress bar */
+  .progress-wrap { margin-top: .4rem; }
+  .progress-bar { height: 4px; background: var(--border); border-radius: 100px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 100px; transition: width .4s; }
+  .progress-fill.blue { background: var(--blue); }
+  .progress-fill.green { background: var(--green); }
+
+  /* ─── OTP INPUT ─── */
+  .otp-row { display: flex; gap: .75rem; }
+  .otp-input {
+    width: 52px; height: 52px;
+    text-align: center;
+    font-size: 1.3rem; font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 10px;
+    padding: 0;
+  }
+
+  /* ─── RATING ─── */
+  .star-row { display: flex; gap: .25rem; flex-direction: row-reverse; justify-content: flex-end; }
+  .star-row input { display: none; }
+  .star-row label {
+    font-size: 1.6rem; cursor: pointer; color: var(--border);
+    transition: color .15s;
+    margin-bottom: 0;
+    font-weight: 400;
+  }
+  .star-row label:hover,
+  .star-row label:hover ~ label,
+  .star-row input:checked ~ label { color: #fbbf24; }
+
+  /* ─── VALIDATION REAL-TIME ─── */
+  .requirement-list { list-style: none; margin-top: .75rem; display: flex; flex-direction: column; gap: .4rem; }
+  .req-item { display: flex; align-items: center; gap: .5rem; font-size: .78rem; color: var(--muted); }
+  .req-item .req-icon { font-size: .85rem; }
+  .req-item.met { color: var(--green); }
+  .req-item.unmet { color: var(--muted); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center; padding: 2.5rem 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted); font-size: .8rem;
+    position: relative; z-index: 1;
+  }
+  footer a { color: var(--blue); text-decoration: none; }
+
+  /* ─── RESPONSIVE ─── */
+  @media(max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .page-hero { padding: 3.5rem 1.5rem 2rem; }
+    .section { padding: 2.5rem 1.5rem; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .otp-row { gap: .5rem; }
+    .otp-input { width: 44px; height: 44px; font-size: 1.1rem; }
+  }
+  @media(max-width: 480px) {
+    .page-hero { padding: 3rem 1.2rem 1.5rem; }
+    .section { padding: 2rem 1.2rem; }
+    .card { padding: 1.4rem; }
+    .step-name { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">← <span>Portfolio</span></a>
+  <span style="font-size:.78rem;color:var(--muted);">Form Widgets · UI/UX Showcase</span>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-hero-badge">UI Component Skills</div>
+  <h1>Form Widgets &amp; Input Patterns</h1>
+  <p>A focused showcase of form design patterns — inputs, validation, multi-step flows, file uploads, and interactive controls — demonstrating UI craftsmanship and accessible UX thinking.</p>
+</div>
+
+<!-- ─── 1. TEXT INPUTS ─── -->
+<section class="section">
+  <p class="section-label">01 · Core Inputs</p>
+  <h2 class="section-title">Text Input Variants</h2>
+  <p class="section-desc">Common input types with icon prefixes, helper text, and state indicators.</p>
+
+  <div class="card">
+    <div class="grid-2">
+      <div>
+        <div class="field">
+          <label>Full Name</label>
+          <div class="input-wrap">
+            <span class="input-icon">👤</span>
+            <input type="text" placeholder="Vinoth Pandian">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label-required">Email Address</label>
+          <div class="input-wrap">
+            <span class="input-icon">✉️</span>
+            <input type="email" placeholder="you@example.com" class="is-valid" value="vinoth@example.com">
+          </div>
+          <p class="hint-text success">✓ Email looks good</p>
+        </div>
+        <div class="field">
+          <label class="label-required">Password</label>
+          <div class="input-wrap right">
+            <input type="password" placeholder="Minimum 8 characters" class="is-error" value="short">
+            <span class="input-icon-right" style="cursor:pointer;">👁</span>
+          </div>
+          <p class="hint-text error">✗ Password must be at least 8 characters</p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>Phone Number</label>
+          <div class="input-wrap">
+            <span class="input-icon">📞</span>
+            <input type="tel" placeholder="+1 (555) 000-0000">
+          </div>
+        </div>
+        <div class="field">
+          <label>Website URL</label>
+          <div class="input-wrap">
+            <span class="input-icon">🔗</span>
+            <input type="url" placeholder="https://yoursite.com">
+          </div>
+        </div>
+        <div class="field">
+          <label>Disabled Field</label>
+          <input type="text" placeholder="Not editable right now" disabled>
+          <p class="hint-text">This field is read-only in this context.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 2. SEARCH & AUTOCOMPLETE ─── -->
+<section class="section">
+  <p class="section-label">02 · Search</p>
+  <h2 class="section-title">Search with Autocomplete</h2>
+  <p class="section-desc">Real-time suggestions as users type — with keyboard navigation support.</p>
+
+  <div class="card">
+    <div class="field" style="max-width:480px">
+      <label>Search Frameworks</label>
+      <div class="autocomplete-wrap">
+        <div class="input-wrap">
+          <span class="input-icon">🔍</span>
+          <input type="search" id="searchInput" placeholder="Type to search..." autocomplete="off" oninput="filterSearch(this.value)">
+        </div>
+        <div class="dropdown-list" id="searchDrop" style="display:none">
+          <div class="dropdown-sep">Suggestions</div>
+          <div class="dropdown-item" onclick="pickSearch('React')">⚛️ <span>React</span></div>
+          <div class="dropdown-item highlighted" onclick="pickSearch('Vue.js')">💚 <span>Vue.js</span></div>
+          <div class="dropdown-item" onclick="pickSearch('Angular')">🔴 <span>Angular</span></div>
+          <div class="dropdown-item" onclick="pickSearch('Svelte')">🔥 <span>Svelte</span></div>
+          <div class="dropdown-item" onclick="pickSearch('Next.js')">▲ <span>Next.js</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="hint-text">Click the input or type to see suggestions. Click a result to select.</p>
+  </div>
+</section>
+
+<!-- ─── 3. SELECT & MULTI-SELECT ─── -->
+<section class="section">
+  <p class="section-label">03 · Selects</p>
+  <h2 class="section-title">Dropdowns &amp; Tags Input</h2>
+  <p class="section-desc">Styled selects and a tags input for multi-value entry.</p>
+
+  <div class="card">
+    <div class="grid-2">
+      <div>
+        <div class="field">
+          <label>Country</label>
+          <div class="select-custom">
+            <select>
+              <option value="">Select country…</option>
+              <option selected>United States</option>
+              <option>United Kingdom</option>
+              <option>Canada</option>
+              <option>Australia</option>
+              <option>India</option>
+              <option>Singapore</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Experience Level</label>
+          <div class="select-custom">
+            <select>
+              <option>Entry (0–2 yrs)</option>
+              <option selected>Mid-level (3–5 yrs)</option>
+              <option>Senior (6–9 yrs)</option>
+              <option>Principal (10+ yrs)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>Skills <span style="color:var(--muted);font-weight:400">(type &amp; press Enter)</span></label>
+          <div class="tags-wrap" id="tagsWrap" onclick="document.getElementById('tagInput').focus()">
+            <span class="tag-pill">Figma <button onclick="removeTag(this,event)">×</button></span>
+            <span class="tag-pill">HTML5 <button onclick="removeTag(this,event)">×</button></span>
+            <span class="tag-pill">CSS3 <button onclick="removeTag(this,event)">×</button></span>
+            <input id="tagInput" type="text" placeholder="Add skill…" onkeydown="addTag(event)">
+          </div>
+          <p class="hint-text">Press Enter or comma to add a tag</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 4. DATE / TIME ─── -->
+<section class="section">
+  <p class="section-label">04 · Date &amp; Time</p>
+  <h2 class="section-title">Date, Time &amp; Range Pickers</h2>
+  <p class="section-desc">Native and styled date/time fields with range selection.</p>
+
+  <div class="card">
+    <div class="grid-3">
+      <div class="field">
+        <label>Date</label>
+        <div class="input-wrap">
+          <span class="input-icon">📅</span>
+          <input type="date" value="2025-04-18">
+        </div>
+      </div>
+      <div class="field">
+        <label>Time</label>
+        <div class="input-wrap">
+          <span class="input-icon">🕐</span>
+          <input type="time" value="14:30">
+        </div>
+      </div>
+      <div class="field">
+        <label>Number</label>
+        <div class="input-wrap">
+          <span class="input-icon">#</span>
+          <input type="number" placeholder="0" min="0" max="100" value="42">
+        </div>
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:.5rem;">
+      <label>Budget Range — <span id="rangeDisplay" style="color:var(--blue);font-family:'JetBrains Mono',monospace;">$5,000</span></label>
+      <div class="range-row">
+        <span style="font-size:.75rem;color:var(--muted)">$0</span>
+        <input type="range" min="0" max="20000" step="500" value="5000" oninput="updateRange(this.value)">
+        <span style="font-size:.75rem;color:var(--muted)">$20k</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 5. CHECKBOXES, RADIOS, TOGGLES ─── -->
+<section class="section">
+  <p class="section-label">05 · Selection Controls</p>
+  <h2 class="section-title">Checkboxes, Radios &amp; Toggles</h2>
+  <p class="section-desc">Multiple-choice patterns for preferences and settings.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <p style="font-size:.8rem;font-weight:600;color:var(--white);margin-bottom:1rem;">Notification Preferences</p>
+      <div class="check-group">
+        <label class="check-item">
+          <input type="checkbox" checked> Email notifications
+        </label>
+        <label class="check-item">
+          <input type="checkbox" checked> Push notifications
+        </label>
+        <label class="check-item">
+          <input type="checkbox"> SMS alerts
+        </label>
+        <label class="check-item">
+          <input type="checkbox"> Weekly digest
+        </label>
+      </div>
+
+      <p style="font-size:.8rem;font-weight:600;color:var(--white);margin:1.5rem 0 1rem;">Billing Cycle</p>
+      <div class="check-group">
+        <label class="check-item">
+          <input type="radio" name="billing" checked> Monthly
+        </label>
+        <label class="check-item">
+          <input type="radio" name="billing"> Annually <span style="font-size:.7rem;background:rgba(34,197,94,.15);color:var(--green);border-radius:4px;padding:.1rem .4rem;margin-left:.3rem;">Save 20%</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="card">
+      <p style="font-size:.8rem;font-weight:600;color:var(--white);margin-bottom:1rem;">Privacy &amp; Settings</p>
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Two-factor auth</div>
+          <div class="toggle-sub">Add extra security to your account</div>
+        </div>
+        <button class="toggle on" onclick="this.classList.toggle('on')" aria-label="Toggle 2FA"></button>
+      </div>
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Public profile</div>
+          <div class="toggle-sub">Let others find your profile</div>
+        </div>
+        <button class="toggle" onclick="this.classList.toggle('on')" aria-label="Toggle public profile"></button>
+      </div>
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Dark mode</div>
+          <div class="toggle-sub">Always on for this demo</div>
+        </div>
+        <button class="toggle on" onclick="this.classList.toggle('on')" aria-label="Toggle dark mode"></button>
+      </div>
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Analytics</div>
+          <div class="toggle-sub">Help improve the product</div>
+        </div>
+        <button class="toggle" onclick="this.classList.toggle('on')" aria-label="Toggle analytics"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 6. TEXTAREA & RICH FIELDS ─── -->
+<section class="section">
+  <p class="section-label">06 · Text Areas</p>
+  <h2 class="section-title">Multi-line &amp; Rich Inputs</h2>
+  <p class="section-desc">Auto-resize textareas with character count feedback.</p>
+
+  <div class="card">
+    <div class="grid-2">
+      <div>
+        <div class="field">
+          <label>Project Brief</label>
+          <textarea id="briefArea" placeholder="Describe your project goals, timeline, and key requirements..." oninput="countChars(this,'briefCount',500)"></textarea>
+          <p class="hint-text"><span id="briefCount">0</span> / 500 characters</p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>Quick Bio <span style="color:var(--muted);font-weight:400">(140 chars)</span></label>
+          <textarea id="bioArea" placeholder="A short intro about yourself…" rows="4" oninput="countChars(this,'bioCount',140)"></textarea>
+          <p class="hint-text"><span id="bioCount">0</span> / 140 characters</p>
+        </div>
+        <div class="field">
+          <label>Subject</label>
+          <input type="text" placeholder="What's this about?">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 7. FILE UPLOAD ─── -->
+<section class="section">
+  <p class="section-label">07 · File Upload</p>
+  <h2 class="section-title">Drag &amp; Drop File Upload</h2>
+  <p class="section-desc">Drag-to-upload zone with file preview and progress feedback.</p>
+
+  <div class="card">
+    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()"
+      ondragover="event.preventDefault();this.classList.add('dragover')"
+      ondragleave="this.classList.remove('dragover')"
+      ondrop="handleDrop(event)">
+      <div class="upload-icon">📂</div>
+      <div class="upload-title">Drop files here or click to browse</div>
+      <div class="upload-sub">Supports PDF, PNG, JPG, SVG — max 10MB per file</div>
+      <input type="file" id="fileInput" multiple onchange="handleFiles(this.files)">
+    </div>
+    <div class="file-list" id="fileList"></div>
+  </div>
+</section>
+
+<!-- ─── 8. OTP & VERIFICATION ─── -->
+<section class="section">
+  <p class="section-label">08 · Verification</p>
+  <h2 class="section-title">OTP &amp; Pin Entry</h2>
+  <p class="section-desc">One-time password input with auto-focus and paste support.</p>
+
+  <div class="card" style="max-width:420px">
+    <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.5rem;">Enter the 6-digit code sent to <strong style="color:var(--text)">v****@example.com</strong></p>
+    <div class="otp-row">
+      <input class="otp-input" type="text" maxlength="1" inputmode="numeric" id="otp1" oninput="otpMove(this,null,'otp2')">
+      <input class="otp-input" type="text" maxlength="1" inputmode="numeric" id="otp2" oninput="otpMove(this,'otp1','otp3')">
+      <input class="otp-input" type="text" maxlength="1" inputmode="numeric" id="otp3" oninput="otpMove(this,'otp2','otp4')">
+      <input class="otp-input" type="text" maxlength="1" inputmode="numeric" id="otp4" oninput="otpMove(this,'otp3','otp5')">
+      <input class="otp-input" type="text" maxlength="1" inputmode="numeric" id="otp5" oninput="otpMove(this,'otp4','otp6')">
+      <input class="otp-input" type="text" maxlength="1" inputmode="numeric" id="otp6" oninput="otpMove(this,'otp5',null)">
+    </div>
+    <div style="margin-top:1.5rem;display:flex;gap:1rem;align-items:center;">
+      <button class="btn btn-primary">Verify Code</button>
+      <button class="btn btn-secondary btn-sm" onclick="clearOtp()">Clear</button>
+    </div>
+    <p class="hint-text" style="margin-top:.8rem;">Didn't receive it? <a href="#" style="color:var(--blue)">Resend in 0:58</a></p>
+  </div>
+</section>
+
+<!-- ─── 9. RATING ─── -->
+<section class="section">
+  <p class="section-label">09 · Rating</p>
+  <h2 class="section-title">Star Rating &amp; Feedback</h2>
+  <p class="section-desc">Interactive star rating with text feedback.</p>
+
+  <div class="card" style="max-width:480px">
+    <p style="font-size:.88rem;font-weight:600;color:var(--white);margin-bottom:1.2rem;">How would you rate your experience?</p>
+    <div class="star-row">
+      <input type="radio" name="rating" id="s5" value="5"><label for="s5">★</label>
+      <input type="radio" name="rating" id="s4" value="4"><label for="s4">★</label>
+      <input type="radio" name="rating" id="s3" value="3" checked><label for="s3">★</label>
+      <input type="radio" name="rating" id="s2" value="2"><label for="s2">★</label>
+      <input type="radio" name="rating" id="s1" value="1"><label for="s1">★</label>
+    </div>
+    <div class="field" style="margin-top:1.5rem;">
+      <label>Tell us more (optional)</label>
+      <textarea placeholder="What went well? What could be better?" rows="3"></textarea>
+    </div>
+    <button class="btn btn-primary" style="margin-top:.5rem;">Submit Feedback</button>
+  </div>
+</section>
+
+<!-- ─── 10. REAL-TIME VALIDATION ─── -->
+<section class="section">
+  <p class="section-label">10 · Validation</p>
+  <h2 class="section-title">Real-Time Password Validation</h2>
+  <p class="section-desc">Inline feedback as users type — showing requirements met in real time.</p>
+
+  <div class="card" style="max-width:440px">
+    <div class="field">
+      <label class="label-required">Create Password</label>
+      <input type="password" id="pwInput" placeholder="Choose a strong password" oninput="checkPassword(this.value)">
+      <div class="progress-wrap" style="margin-top:.5rem">
+        <div class="progress-bar">
+          <div class="progress-fill blue" id="pwStrength" style="width:0%"></div>
+        </div>
+        <p class="hint-text" id="pwStrengthLabel">Enter a password</p>
+      </div>
+    </div>
+    <ul class="requirement-list" id="reqList">
+      <li class="req-item unmet" id="req-len"><span class="req-icon">○</span> At least 8 characters</li>
+      <li class="req-item unmet" id="req-upper"><span class="req-icon">○</span> One uppercase letter</li>
+      <li class="req-item unmet" id="req-lower"><span class="req-icon">○</span> One lowercase letter</li>
+      <li class="req-item unmet" id="req-num"><span class="req-icon">○</span> One number</li>
+      <li class="req-item unmet" id="req-special"><span class="req-icon">○</span> One special character</li>
+    </ul>
+    <div class="field" style="margin-top:1.2rem">
+      <label class="label-required">Confirm Password</label>
+      <input type="password" id="pwConfirm" placeholder="Repeat your password" oninput="checkConfirm(this.value)">
+      <p class="hint-text" id="confirmHint"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 11. MULTI-STEP FORM ─── -->
+<section class="section">
+  <p class="section-label">11 · Multi-Step</p>
+  <h2 class="section-title">Multi-Step Onboarding Flow</h2>
+  <p class="section-desc">Progressive disclosure pattern — breaking long forms into manageable steps.</p>
+
+  <div class="card">
+    <!-- Step progress bar -->
+    <div class="step-bar">
+      <div class="step done" id="stepDot1">
+        <div class="step-circle">✓</div>
+        <span class="step-name">Account</span>
+      </div>
+      <div class="step-line done"></div>
+      <div class="step active" id="stepDot2">
+        <div class="step-circle">2</div>
+        <span class="step-name">Profile</span>
+      </div>
+      <div class="step-line" id="line2"></div>
+      <div class="step" id="stepDot3">
+        <div class="step-circle">3</div>
+        <span class="step-name">Preferences</span>
+      </div>
+      <div class="step-line" id="line3"></div>
+      <div class="step" id="stepDot4">
+        <div class="step-circle">4</div>
+        <span class="step-name">Confirm</span>
+      </div>
+    </div>
+
+    <!-- Step 1 (already done visual) -->
+    <div class="step-panel" id="panel1">
+      <div class="grid-2">
+        <div class="field">
+          <label class="label-required">Email</label>
+          <input type="email" placeholder="you@example.com">
+        </div>
+        <div class="field">
+          <label class="label-required">Password</label>
+          <input type="password" placeholder="Minimum 8 chars">
+        </div>
+      </div>
+      <div class="step-actions">
+        <span></span>
+        <button class="btn btn-primary" onclick="goStep(1,2)">Next: Profile →</button>
+      </div>
+    </div>
+
+    <!-- Step 2 (active) -->
+    <div class="step-panel active" id="panel2">
+      <div class="grid-2">
+        <div class="field">
+          <label class="label-required">First Name</label>
+          <input type="text" placeholder="Vinoth" value="Vinoth">
+        </div>
+        <div class="field">
+          <label class="label-required">Last Name</label>
+          <input type="text" placeholder="Pandian" value="Pandian">
+        </div>
+        <div class="field">
+          <label>Job Title</label>
+          <input type="text" placeholder="UI Developer" value="Senior UI Developer">
+        </div>
+        <div class="field">
+          <label>Company</label>
+          <input type="text" placeholder="Your company">
+        </div>
+      </div>
+      <div class="step-actions">
+        <button class="btn btn-secondary" onclick="goStep(2,1)">← Back</button>
+        <button class="btn btn-primary" onclick="goStep(2,3)">Next: Preferences →</button>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step-panel" id="panel3">
+      <p style="font-size:.88rem;color:var(--muted);margin-bottom:1.5rem;">Choose the topics you care about:</p>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" checked> UI / UX Design</label>
+        <label class="check-item"><input type="checkbox" checked> Frontend Development</label>
+        <label class="check-item"><input type="checkbox"> Design Systems</label>
+        <label class="check-item"><input type="checkbox"> Accessibility</label>
+        <label class="check-item"><input type="checkbox"> Product Strategy</label>
+      </div>
+      <div class="step-actions">
+        <button class="btn btn-secondary" onclick="goStep(3,2)">← Back</button>
+        <button class="btn btn-primary" onclick="goStep(3,4)">Next: Review →</button>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step-panel" id="panel4">
+      <div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:2rem;text-align:center;margin-bottom:1.5rem;">
+        <div style="font-size:2.5rem;margin-bottom:.8rem;">🎉</div>
+        <h3 style="color:var(--white);margin-bottom:.5rem;">You're all set, Vinoth!</h3>
+        <p style="font-size:.85rem;color:var(--muted);">Your profile is configured. Click below to complete setup.</p>
+      </div>
+      <div class="step-actions">
+        <button class="btn btn-secondary" onclick="goStep(4,3)">← Back</button>
+        <button class="btn btn-success btn-lg">Complete Setup ✓</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 12. CONTACT FORM ─── -->
+<section class="section">
+  <p class="section-label">12 · Full Form</p>
+  <h2 class="section-title">Contact &amp; Inquiry Form</h2>
+  <p class="section-desc">A complete, production-ready contact form with all field types and submission state.</p>
+
+  <div class="card">
+    <form onsubmit="submitForm(event)">
+      <div class="grid-2">
+        <div class="field">
+          <label class="label-required">First Name</label>
+          <input type="text" placeholder="First name" required>
+        </div>
+        <div class="field">
+          <label class="label-required">Last Name</label>
+          <input type="text" placeholder="Last name" required>
+        </div>
+        <div class="field">
+          <label class="label-required">Email</label>
+          <input type="email" placeholder="you@company.com" required>
+        </div>
+        <div class="field">
+          <label>Phone</label>
+          <input type="tel" placeholder="+1 (555) 000-0000">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label-required">Subject</label>
+        <div class="select-custom">
+          <select required>
+            <option value="">Select a topic…</option>
+            <option>Project Inquiry</option>
+            <option>Job Opportunity</option>
+            <option>Collaboration</option>
+            <option>General Question</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label-required">Message</label>
+        <textarea id="contactMsg" placeholder="Tell me about your project, timeline, and budget…" required oninput="countChars(this,'contactCount',1000)"></textarea>
+        <p class="hint-text"><span id="contactCount">0</span> / 1000</p>
+      </div>
+
+      <div class="field">
+        <label class="check-item" style="font-weight:400">
+          <input type="checkbox" required>
+          I agree to the <a href="#" style="color:var(--blue)">privacy policy</a> and consent to being contacted.
+        </label>
+      </div>
+
+      <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
+        <button class="btn btn-primary btn-lg" type="submit" id="submitBtn">Send Message</button>
+        <button class="btn btn-secondary" type="reset">Clear Form</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p>Form Widgets Showcase — <a href="index.html">← Back to Portfolio</a></p>
+</footer>
+
+<script>
+// Search autocomplete
+function filterSearch(val) {
+  const drop = document.getElementById('searchDrop');
+  drop.style.display = val.length > 0 ? 'block' : 'none';
+}
+function pickSearch(name) {
+  document.getElementById('searchInput').value = name;
+  document.getElementById('searchDrop').style.display = 'none';
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.autocomplete-wrap')) {
+    const d = document.getElementById('searchDrop');
+    if (d) d.style.display = 'none';
+  }
+});
+document.getElementById('searchInput').addEventListener('focus', function() {
+  if (this.value.length > 0) document.getElementById('searchDrop').style.display = 'block';
+});
+
+// Tags input
+function addTag(e) {
+  if (e.key !== 'Enter' && e.key !== ',') return;
+  e.preventDefault();
+  const input = e.target;
+  const val = input.value.trim().replace(/,$/,'');
+  if (!val) return;
+  const wrap = document.getElementById('tagsWrap');
+  const pill = document.createElement('span');
+  pill.className = 'tag-pill';
+  pill.innerHTML = `${val} <button onclick="removeTag(this,event)">×</button>`;
+  wrap.insertBefore(pill, input);
+  input.value = '';
+}
+function removeTag(btn, e) {
+  e.stopPropagation();
+  btn.closest('.tag-pill').remove();
+}
+
+// Range slider
+function updateRange(v) {
+  document.getElementById('rangeDisplay').textContent = '$' + parseInt(v).toLocaleString();
+}
+
+// Char count
+function countChars(el, countId, max) {
+  const n = el.value.length;
+  const el2 = document.getElementById(countId);
+  el2.textContent = n;
+  el2.style.color = n > max * 0.9 ? 'var(--yellow)' : n >= max ? 'var(--red)' : '';
+  if (n > max) el.value = el.value.substring(0, max);
+}
+
+// File upload
+function handleFiles(files) {
+  Array.from(files).forEach(addFile);
+  document.getElementById('uploadZone').classList.remove('dragover');
+}
+function handleDrop(e) {
+  e.preventDefault();
+  handleFiles(e.dataTransfer.files);
+}
+function addFile(file) {
+  const list = document.getElementById('fileList');
+  const item = document.createElement('div');
+  item.className = 'file-item';
+  const ext = file.name.split('.').pop().toLowerCase();
+  const icons = { pdf: '📄', png: '🖼', jpg: '🖼', jpeg: '🖼', svg: '🎨', zip: '📦' };
+  item.innerHTML = `
+    <span class="file-icon">${icons[ext] || '📎'}</span>
+    <span class="file-name">${file.name}</span>
+    <span class="file-size">${(file.size / 1024).toFixed(1)} KB</span>
+    <button class="file-remove" onclick="this.closest('.file-item').remove()">✕</button>
+  `;
+  list.appendChild(item);
+  // Animate progress
+  const prog = document.createElement('div');
+  prog.className = 'progress-wrap';
+  prog.innerHTML = '<div class="progress-bar"><div class="progress-fill blue" style="width:0%"></div></div>';
+  item.after(prog);
+  let w = 0;
+  const t = setInterval(() => {
+    w += Math.random() * 25;
+    if (w >= 100) { w = 100; clearInterval(t); prog.querySelector('.progress-fill').classList.replace('blue','green'); }
+    prog.querySelector('.progress-fill').style.width = w + '%';
+  }, 120);
+}
+
+// OTP
+function otpMove(el, prev, next) {
+  if (el.value && next) document.getElementById(next).focus();
+  if (!el.value && prev) document.getElementById(prev).focus();
+}
+function clearOtp() {
+  ['otp1','otp2','otp3','otp4','otp5','otp6'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('otp1').focus();
+}
+
+// Password strength
+function checkPassword(val) {
+  const reqs = {
+    'req-len': val.length >= 8,
+    'req-upper': /[A-Z]/.test(val),
+    'req-lower': /[a-z]/.test(val),
+    'req-num': /[0-9]/.test(val),
+    'req-special': /[^A-Za-z0-9]/.test(val),
+  };
+  let met = Object.values(reqs).filter(Boolean).length;
+  Object.entries(reqs).forEach(([id, ok]) => {
+    const el = document.getElementById(id);
+    el.className = 'req-item ' + (ok ? 'met' : 'unmet');
+    el.querySelector('.req-icon').textContent = ok ? '✓' : '○';
+  });
+  const pct = (met / 5) * 100;
+  const fill = document.getElementById('pwStrength');
+  const label = document.getElementById('pwStrengthLabel');
+  fill.style.width = pct + '%';
+  fill.className = 'progress-fill ' + (met <= 2 ? 'red' : met <= 3 ? 'yellow' : 'green');
+  label.textContent = met === 0 ? 'Enter a password' : met <= 2 ? 'Weak' : met <= 3 ? 'Fair' : met === 4 ? 'Good' : 'Strong';
+  label.style.color = met <= 2 ? 'var(--red)' : met <= 3 ? 'var(--yellow)' : 'var(--green)';
+  // Add fill colors
+  if (fill.classList.contains('red')) fill.style.background = 'var(--red)';
+  else if (fill.classList.contains('yellow')) fill.style.background = 'var(--yellow)';
+  else fill.style.background = 'var(--green)';
+}
+function checkConfirm(val) {
+  const pw = document.getElementById('pwInput').value;
+  const hint = document.getElementById('pwConfirm');
+  const msg = document.getElementById('confirmHint');
+  if (!val) { hint.className = ''; msg.textContent = ''; return; }
+  if (val === pw) { hint.className = 'is-valid'; msg.className = 'hint-text success'; msg.textContent = '✓ Passwords match'; }
+  else { hint.className = 'is-error'; msg.className = 'hint-text error'; msg.textContent = '✗ Passwords do not match'; }
+}
+
+// Multi-step
+function goStep(from, to) {
+  document.getElementById('panel' + from).classList.remove('active');
+  document.getElementById('panel' + to).classList.add('active');
+  // Update dots
+  for (let i = 1; i <= 4; i++) {
+    const dot = document.getElementById('stepDot' + i);
+    dot.classList.remove('active','done');
+    if (i < to) dot.classList.add('done');
+    else if (i === to) dot.classList.add('active');
+    if (i < to) dot.querySelector('.step-circle').textContent = '✓';
+    else dot.querySelector('.step-circle').textContent = i;
+    if (i < 4) {
+      const line = document.getElementById('line' + i);
+      if (line) { line.classList.toggle('done', i < to); }
+    }
+  }
+}
+
+// Contact form submit
+function submitForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = '';
+  btn.classList.add('btn-loading');
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.classList.remove('btn-loading');
+    btn.textContent = '✓ Message Sent!';
+    btn.style.background = 'var(--green)';
+    btn.style.color = '#052e16';
+    setTimeout(() => {
+      btn.textContent = 'Send Message';
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.disabled = false;
+    }, 3000);
+  }, 1800);
+}
+</script>
+</body>
+</html>

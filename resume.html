@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vinoth Pandian — Senior UI Developer &amp; UX Designer</title>
+  <meta name="description" content="Resume of Vinoth Pandian, Senior UI Developer and UX Designer with 10+ years of experience building accessible, user-centred web applications." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Skip link — ADA requirement */
+    .skip-link {
+      position: absolute;
+      top: -999px; left: 0;
+      background: #2563eb; color: #fff;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      z-index: 100;
+      border-radius: 0 0 6px 0;
+    }
+    .skip-link:focus { top: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      line-height: 1.6;
+    }
+
+    /* Blue strip that repeats across PDF pages */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 310px;
+      height: 100%;
+      background: #1a1a2e;
+      z-index: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    a:focus-visible {
+      outline: 3px solid #60a5fa;
+      outline-offset: 2px;
+      border-radius: 3px;
+    }
+
+    /* ── Layout ── */
+    .page {
+      max-width: 960px;
+      margin: 2.5rem auto;
+      background: transparent;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+      border-radius: 14px;
+      overflow: visible;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      background: #1a1a2e;
+      color: #e8eaf0;
+      padding: 2.5rem 1.8rem;
+      border-radius: 14px 0 0 14px;
+    }
+
+    .avatar {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; font-weight: 800; color: #fff;
+      margin: 0 auto 1.2rem;
+      letter-spacing: 1px;
+      aria-hidden: true;
+    }
+
+    .sidebar-name { font-size: 1.25rem; font-weight: 700; text-align: center; color: #fff; }
+    .sidebar-role { font-size: 0.78rem; text-align: center; color: #93c5fd; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 0.25rem; margin-bottom: 2rem; font-weight: 600; }
+
+    .s-section { margin-bottom: 1.8rem; }
+    .s-section h2 {
+      font-size: 0.68rem; text-transform: uppercase; letter-spacing: 2px;
+      color: #93c5fd; margin-bottom: 0.8rem; font-weight: 700;
+      border-bottom: 1px solid #2e2e4a; padding-bottom: 0.4rem;
+    }
+
+    .contact-list { list-style: none; }
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      margin-bottom: 0.55rem; font-size: 0.82rem; color: #cbd5e1;
+    }
+    .contact-item a { color: #cbd5e1; }
+    .contact-item a:hover { color: #93c5fd; }
+    .contact-icon { flex-shrink: 0; margin-top: 2px; }
+
+    /* Skills */
+    .skills-grid { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-tag {
+      background: #1e3a5f;
+      color: #bfdbfe;
+      font-size: 0.74rem;
+      padding: 0.28rem 0.7rem;
+      border-radius: 20px;
+      border: 1px solid #2563eb;
+      font-weight: 500;
+    }
+
+    /* Education */
+    .edu-degree { font-size: 0.85rem; font-weight: 600; color: #e8eaf0; }
+    .edu-school { font-size: 0.8rem; color: #93a3b8; margin-top: 0.15rem; }
+    .edu-year { font-size: 0.75rem; color: #93c5fd; margin-top: 0.15rem; }
+
+    /* ── Main ── */
+    .main {
+      padding: 2.5rem 2.2rem;
+      background: #fff;
+      border-radius: 0 14px 14px 0;
+    }
+
+    .main-name { font-size: 1.9rem; font-weight: 800; color: #1a1a2e; letter-spacing: -0.5px; }
+    .main-title { font-size: 0.88rem; color: #1d4ed8; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 0.2rem; }
+
+    .summary {
+      margin-top: 1.2rem;
+      font-size: 0.88rem; color: #374151; line-height: 1.8;
+      padding: 1rem 1.2rem;
+      background: #eff6ff;
+      border-left: 3px solid #2563eb;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .section { margin-top: 1.8rem; }
+    .section > h2 {
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
+      color: #1d4ed8; font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .section > h2::after { content: ''; flex: 1; height: 1px; background: #e2e8f0; }
+
+    /* Experience */
+    .job { margin-bottom: 1.4rem; position: relative; padding-left: 1.1rem; border-left: 2px solid #dbeafe; }
+    .job:last-child { margin-bottom: 0; }
+    .job::before { content: ''; width: 10px; height: 10px; background: #2563eb; border-radius: 50%; position: absolute; left: -6px; top: 6px; }
+
+    .job-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.3rem; }
+    .job-title { font-weight: 700; font-size: 0.95rem; color: #1a1a2e; }
+    .job-period { font-size: 0.73rem; color: #fff; background: #2563eb; padding: 0.15rem 0.7rem; border-radius: 20px; font-weight: 600; white-space: nowrap; }
+    .job-company { font-size: 0.82rem; color: #2563eb; font-weight: 600; margin-top: 0.12rem; }
+    .job-desc { margin-top: 0.6rem; list-style: none; }
+    .job-desc li { font-size: 0.84rem; color: #374151; margin-bottom: 0.35rem; padding-left: 1.1rem; position: relative; line-height: 1.55; }
+    .job-desc li::before { content: '▸'; position: absolute; left: 0; color: #2563eb; font-size: 0.68rem; top: 3px; }
+
+    /* Projects */
+    .project-item { margin-bottom: 1.1rem; padding-left: 1.1rem; border-left: 2px solid #dbeafe; position: relative; }
+    .project-item::before { content: ''; width: 10px; height: 10px; background: #2563eb; border-radius: 50%; position: absolute; left: -6px; top: 6px; }
+    .project-item:last-child { margin-bottom: 0; }
+    .project-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.3rem; }
+    .project-name { font-weight: 700; font-size: 0.92rem; color: #1a1a2e; }
+    .project-tech { font-size: 0.7rem; color: #fff; background: #1d4ed8; padding: 0.15rem 0.65rem; border-radius: 20px; font-weight: 600; }
+    .project-desc { font-size: 0.83rem; color: #374151; margin-top: 0.3rem; line-height: 1.6; }
+
+    /* Print */
+    @media print {
+      body::before { display: none; }
+      body { background: #fff; }
+      .page { box-shadow: none; margin: 0; border-radius: 0; max-width: 100%; }
+      .sidebar { border-radius: 0; }
+      .main { border-radius: 0; }
+      .skip-link { display: none; }
+    }
+
+    @media (max-width: 700px) {
+      .page { grid-template-columns: 1fr; }
+      .sidebar { border-radius: 14px 14px 0 0; }
+      .main { border-radius: 0 0 14px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="page" role="document">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar" aria-label="Contact information and skills">
+      <div class="avatar" aria-hidden="true">VP</div>
+      <p class="sidebar-name">Vinoth Pandian</p>
+      <p class="sidebar-role">UI Developer · UX Designer</p>
+
+      <div class="s-section">
+        <h2>Contact</h2>
+        <ul class="contact-list">
+          <li class="contact-item">
+            <svg class="contact-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.28h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <a href="tel:+919789943123" aria-label="Call Vinoth Pandian">+91 97899 43123</a>
+          </li>
+          <li class="contact-item">
+            <svg class="contact-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:vinothpandiyang@gmail.com" aria-label="Email Vinoth Pandian">vinothpandiyang@gmail.com</a>
+          </li>
+          <li class="contact-item">
+            <svg class="contact-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Dindigul, Tamil Nadu, India</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="s-section">
+        <h2>Technical Skills</h2>
+        <ul class="skills-grid" role="list" aria-label="Technical skills">
+          <li class="skill-tag">HTML5</li>
+          <li class="skill-tag">CSS3</li>
+          <li class="skill-tag">JavaScript</li>
+          <li class="skill-tag">jQuery</li>
+          <li class="skill-tag">Bootstrap</li>
+          <li class="skill-tag">Responsive Design</li>
+          <li class="skill-tag">Figma</li>
+          <li class="skill-tag">Adobe XD</li>
+          <li class="skill-tag">Adobe Photoshop</li>
+          <li class="skill-tag">Cross-browser</li>
+          <li class="skill-tag">Mobile-First</li>
+          <li class="skill-tag">WCAG 2.1 AA</li>
+          <li class="skill-tag">W3C Standards</li>
+          <li class="skill-tag">Git</li>
+        </ul>
+      </div>
+
+      <div class="s-section">
+        <h2>UX Skills</h2>
+        <ul class="skills-grid" role="list" aria-label="UX design skills">
+          <li class="skill-tag">User Research</li>
+          <li class="skill-tag">Usability Testing</li>
+          <li class="skill-tag">Wireframing</li>
+          <li class="skill-tag">Prototyping</li>
+          <li class="skill-tag">Design Systems</li>
+          <li class="skill-tag">Info. Architecture</li>
+          <li class="skill-tag">User Personas</li>
+          <li class="skill-tag">Journey Mapping</li>
+          <li class="skill-tag">Interaction Design</li>
+          <li class="skill-tag">A/B Testing</li>
+        </ul>
+      </div>
+
+      <div class="s-section">
+        <h2>Education</h2>
+        <div class="edu-degree">B.Tech — Computer Science</div>
+        <div class="edu-school">SRM University</div>
+        <div class="edu-year">2005 – 2008</div>
+      </div>
+
+      <div class="s-section">
+        <h2>Strengths</h2>
+        <ul class="skills-grid" role="list" aria-label="Key strengths">
+          <li class="skill-tag">Pixel-perfect UI</li>
+          <li class="skill-tag">Agile / Scrum</li>
+          <li class="skill-tag">Fast delivery</li>
+          <li class="skill-tag">Cross-team collab</li>
+          <li class="skill-tag">ADA Compliance</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- ── MAIN ── -->
+    <main class="main" id="main-content" aria-label="Resume content">
+      <h1 class="main-name">Vinoth Pandian</h1>
+      <p class="main-title" aria-label="Job title">Senior UI Developer &amp; UX Designer · 10+ Years</p>
+
+      <p class="summary" role="note">
+        Creative and detail-oriented Senior UI Developer &amp; UX Designer with <strong>10+ years</strong> of experience crafting responsive, accessible, and high-performance web applications. Deep expertise in the full design-to-development cycle — from user research and wireframing through to pixel-perfect implementation. Passionate about inclusive design (WCAG 2.1 AA), mobile-first development, and building scalable design systems that empower teams and delight users.
+      </p>
+
+      <!-- Experience -->
+      <section class="section" aria-labelledby="exp-heading">
+        <h2 id="exp-heading">Work Experience</h2>
+
+        <article class="job" aria-label="Senior UI Developer at K2B Solutions">
+          <div class="job-header">
+            <div>
+              <div class="job-title">Senior UI Developer &amp; UX Designer</div>
+              <div class="job-company">K2B Solutions, Chennai</div>
+            </div>
+            <span class="job-period" aria-label="Employment period: August 2016 to August 2023">Aug 2016 – Aug 2023</span>
+          </div>
+          <ul class="job-desc" aria-label="Responsibilities and achievements">
+            <li>Led end-to-end UX design process — user research, persona creation, journey mapping, wireframing, and high-fidelity prototyping in Figma and Adobe XD.</li>
+            <li>Conducted usability testing sessions and translated findings into iterative design improvements, increasing task-completion rates across key user flows.</li>
+            <li>Designed and implemented WCAG 2.1 AA-compliant interfaces, achieving ADA-conformant products for 5+ enterprise clients.</li>
+            <li>Improved UI performance, achieving measurably faster page load times and better Core Web Vitals scores through lazy loading, code splitting, and asset optimisation.</li>
+            <li>Built a reusable, accessible component and design-system library that reduced front-end build time by ~30% across projects.</li>
+            <li>Collaborated with product managers, backend developers, and stakeholders to align design decisions with business goals and user needs.</li>
+          </ul>
+        </article>
+
+        <article class="job" aria-label="Junior UI Developer at K2B Solutions">
+          <div class="job-header">
+            <div>
+              <div class="job-title">Junior UI Developer</div>
+              <div class="job-company">K2B Solutions, Chennai</div>
+            </div>
+            <span class="job-period" aria-label="Employment period: August 2013 to August 2015">Aug 2013 – Aug 2015</span>
+          </div>
+          <ul class="job-desc" aria-label="Responsibilities and achievements">
+            <li>Developed and maintained responsive web pages using HTML5, CSS3, and JavaScript, consistently meeting cross-browser compatibility standards.</li>
+            <li>Converted UI/UX wireframes and mockups into pixel-perfect, fully functional interfaces working directly with the design team.</li>
+            <li>Participated in design critiques and contributed to improving UX patterns across the product portfolio.</li>
+          </ul>
+        </article>
+      </section>
+
+      <!-- UX Process -->
+      <section class="section" aria-labelledby="ux-heading">
+        <h2 id="ux-heading">UX Design Approach</h2>
+
+        <article class="job" aria-label="UX Design Process">
+          <div class="job-header">
+            <div><div class="job-title">Design Process &amp; Methodology</div></div>
+          </div>
+          <ul class="job-desc" aria-label="UX methodologies">
+            <li><strong>Discover:</strong> Stakeholder interviews, user surveys, and competitive analysis to define goals and pain points.</li>
+            <li><strong>Define:</strong> Affinity mapping, user personas, and job-to-be-done frameworks to synthesise research into actionable insights.</li>
+            <li><strong>Design:</strong> Low-fidelity sketches → information architecture → interactive Figma prototypes with component libraries.</li>
+            <li><strong>Validate:</strong> Moderated and unmoderated usability tests, A/B experiments, and heuristic evaluation (Nielsen's 10 heuristics).</li>
+            <li><strong>Deliver:</strong> Developer handoff via Figma with annotated specs, design tokens, and accessibility documentation.</li>
+          </ul>
+        </article>
+      </section>
+
+      <!-- Projects -->
+      <section class="section" aria-labelledby="proj-heading">
+        <h2 id="proj-heading">Projects</h2>
+
+        <div class="project-item" role="article" aria-label="Restaurant and Hospitality Web Interfaces project">
+          <div class="project-header">
+            <div class="project-name">Restaurant &amp; Hospitality Web Interfaces</div>
+            <span class="project-tech">HTML5 · CSS3 · jQuery</span>
+          </div>
+          <p class="project-desc">Designed and developed accessible, responsive landing pages for restaurant, coffee shop, and hotel clients — covering menu layouts, reservation flows, gallery sections, and location integration with WCAG 2.1 AA compliance.</p>
+        </div>
+
+        <div class="project-item" role="article" aria-label="Retail and E-Commerce UI Templates project">
+          <div class="project-header">
+            <div class="project-name">Retail &amp; E-Commerce UI Templates</div>
+            <span class="project-tech">Bootstrap · CSS3 · JavaScript</span>
+          </div>
+          <p class="project-desc">Built pixel-perfect, keyboard-navigable UI templates for fashion retail and real estate clients, including product grids, lookbooks, property listing cards, and accessible lead-capture forms.</p>
+        </div>
+
+        <div class="project-item" role="article" aria-label="SaaS Startup Landing Page project">
+          <div class="project-header">
+            <div class="project-name">SaaS Startup Landing Page</div>
+            <span class="project-tech">HTML5 · CSS3 · Bootstrap</span>
+          </div>
+          <p class="project-desc">Created a high-conversion, accessible startup landing page with feature highlights, pricing tiers, testimonials, and mobile-first layout optimised for Core Web Vitals and screen-reader compatibility.</p>
+        </div>
+
+        <div class="project-item" role="article" aria-label="Reusable Component Library project">
+          <div class="project-header">
+            <div class="project-name">Accessible Design System — K2B Solutions</div>
+            <span class="project-tech">Figma · HTML5 · CSS3 · jQuery</span>
+          </div>
+          <p class="project-desc">Architected a shared, WCAG-compliant UI component library and Figma design system used across 10+ client projects, reducing build time by ~30% and guaranteeing consistent, accessible brand experiences.</p>
+        </div>
+
+      </section>
+    </main>
+
+  </div>
+</body>
+</html>
