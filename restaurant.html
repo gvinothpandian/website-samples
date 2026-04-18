@@ -13,7 +13,7 @@
 
   nav{position:fixed;top:0;width:100%;padding:1.8rem 5rem;display:flex;justify-content:space-between;align-items:center;z-index:100;background:rgba(26,18,8,0);transition:background .4s,backdrop-filter .4s}
   nav.scrolled{background:rgba(26,18,8,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(184,146,42,.12)}
-  .nav-logo{font-family:'Cormorant',serif;font-size:1.6rem;font-weight:600;letter-spacing:.12em;color:var(--ivory)}
+  .nav-logo{font-family:'Cormorant',serif;font-size:1.6rem;font-weight:600;letter-spacing:.12em;color:var(--ivory);display:flex;align-items:center;gap:.55rem}
   .nav-logo span{color:var(--gold)}
   .nav-links{display:flex;gap:3rem;list-style:none}
   .nav-links a{font-size:.65rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(250,246,237,.55);text-decoration:none;transition:color .3s;font-weight:400}
@@ -150,7 +150,13 @@
 </head>
 <body>
 <nav id="nav">
-  <div class="nav-logo">Osteria <span>Luce</span></div>
+  <div class="nav-logo">
+    <svg width="20" height="22" viewBox="0 0 20 22" fill="none" aria-hidden="true">
+      <path d="M10 1C10 1 5.5 6.5 5.5 11.5a4.5 4.5 0 009 0c0-2.2-1.2-4-2-5.2-1 2.2-1.8 3.2-1.8 3.2S9.5 7.5 10 1z" fill="#b8922a"/>
+      <ellipse cx="10" cy="15.5" rx="2" ry="2.2" fill="#faf6ed" opacity="0.7"/>
+    </svg>
+    Osteria <span>Luce</span>
+  </div>
   <ul class="nav-links">
     <li><a href="#menu">Menu</a></li>
     <li><a href="#gallery">Gallery</a></li>

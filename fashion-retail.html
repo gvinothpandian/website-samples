@@ -37,6 +37,7 @@
     font-size: 2rem;
     letter-spacing: 0.2em;
     color: var(--black);
+    display: flex; align-items: center; gap: 0.5rem;
   }
   .nav-links { display: flex; gap: 2.5rem; list-style: none; }
   .nav-links a {
@@ -458,7 +459,13 @@
 <body>
 
 <nav>
-  <div class="nav-logo">VAUX</div>
+  <div class="nav-logo">
+    <svg width="20" height="22" viewBox="0 0 20 22" fill="none" aria-hidden="true">
+      <path d="M2 4l8 14 8-14" stroke="#0a0a0a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M6 4l4 7 4-7" stroke="#d92b1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    VAUX
+  </div>
   <ul class="nav-links">
     <li><a href="#collection">Collection</a></li>
     <li><a href="#lookbook">Lookbook</a></li>

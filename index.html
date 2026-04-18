@@ -162,24 +162,18 @@
     .bento-item.sm-3   { grid-column: span 4; }
     .bento-item.sm-4   { grid-column: span 4; }
     .bento-item.sm-5   { grid-column: span 4; }
+    .bento-item.sm-6   { grid-column: span 6; }
 
     .bento-visual {
       flex: 1;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 3.5rem;
-      padding: 2rem;
-      background: linear-gradient(135deg, var(--dark3), var(--dark2));
+      display: flex; align-items: stretch;
+      padding: 0;
+      background: #0d1117;
       position: relative;
       overflow: hidden;
+      min-height: 150px;
     }
-    .bento-item.feat-1 .bento-visual { font-size: 5rem; }
-    .bento-item.feat-2 .bento-visual { font-size: 4.5rem; }
-
-    .bento-visual::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 30% 30%, rgba(37,99,235,0.12), transparent 70%);
-    }
+    .bento-visual svg { width: 100%; height: 100%; display: block; }
 
     .bento-info { padding: 1.2rem 1.4rem; }
     .bento-item.feat-1 .bento-info,
@@ -299,7 +293,8 @@
       .bento-item.sm-2,
       .bento-item.sm-3,
       .bento-item.sm-4,
-      .bento-item.sm-5  { grid-column: span 6; }
+      .bento-item.sm-5,
+      .bento-item.sm-6  { grid-column: span 6; }
     }
     @media (max-width: 560px) {
       .bento-item { grid-column: span 12 !important; }
@@ -387,7 +382,51 @@
     <div class="bento" role="list">
 
       <a class="bento-item feat-1" href="restaurant.html" role="listitem" aria-label="Restaurant project">
-        <div class="bento-visual">🍽️</div>
+        <div class="bento-visual">
+          <svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="240" fill="#0f0b06"/>
+            <rect width="400" height="28" fill="#1d1509"/>
+            <circle cx="16" cy="14" r="4" fill="#ff5f57"/><circle cx="29" cy="14" r="4" fill="#febc2e"/><circle cx="42" cy="14" r="4" fill="#28c840"/>
+            <rect x="58" y="8" width="180" height="12" rx="6" fill="#2a2218"/>
+            <rect y="28" width="400" height="212" fill="#1a1208"/>
+            <rect y="28" width="400" height="30" fill="#1a1208"/>
+            <rect x="16" y="37" width="72" height="8" rx="2" fill="#b8922a"/>
+            <rect x="200" y="39" width="32" height="4" rx="2" fill="#faf6ed" opacity="0.3"/>
+            <rect x="244" y="39" width="32" height="4" rx="2" fill="#faf6ed" opacity="0.3"/>
+            <rect x="288" y="39" width="32" height="4" rx="2" fill="#faf6ed" opacity="0.3"/>
+            <rect x="334" y="34" width="54" height="14" rx="2" fill="none" stroke="#b8922a" stroke-width="0.9"/>
+            <rect y="58" width="205" height="112" fill="#1a1208"/>
+            <rect x="16" y="68" width="36" height="3" rx="1.5" fill="#b8922a" opacity="0.7"/>
+            <rect x="58" y="68" width="15" height="2" rx="1" fill="#b8922a" opacity="0.4"/>
+            <rect x="16" y="78" width="155" height="9" rx="2" fill="#faf6ed" opacity="0.9"/>
+            <rect x="16" y="92" width="135" height="9" rx="2" fill="#faf6ed" opacity="0.9"/>
+            <rect x="16" y="106" width="100" height="8" rx="2" fill="#b8922a"/>
+            <rect x="16" y="120" width="165" height="3" rx="1.5" fill="#faf6ed" opacity="0.22"/>
+            <rect x="16" y="127" width="140" height="3" rx="1.5" fill="#faf6ed" opacity="0.22"/>
+            <rect x="16" y="138" width="60" height="16" rx="2" fill="#b8922a"/>
+            <rect x="84" y="138" width="60" height="16" rx="2" fill="none" stroke="#faf6ed" stroke-width="0.6" opacity="0.35"/>
+            <rect x="205" y="58" width="195" height="112" fill="#241508"/>
+            <rect x="217" y="68" width="171" height="86" rx="3" fill="#32200e"/>
+            <polygon points="205,170 400,58 400,170" fill="#1e1006" opacity="0.4"/>
+            <rect y="170" width="400" height="1" fill="#b8922a" opacity="0.2"/>
+            <rect x="8" y="176" width="92" height="56" rx="3" fill="#1e1208"/>
+            <rect x="108" y="176" width="92" height="56" rx="3" fill="#1e1208"/>
+            <rect x="208" y="176" width="92" height="56" rx="3" fill="#1e1208"/>
+            <rect x="308" y="176" width="84" height="56" rx="3" fill="#1e1208"/>
+            <rect x="16" y="184" width="52" height="20" rx="2" fill="#291608"/>
+            <rect x="16" y="208" width="64" height="3" rx="1.5" fill="#faf6ed" opacity="0.35"/>
+            <rect x="16" y="215" width="42" height="3" rx="1.5" fill="#b8922a" opacity="0.8"/>
+            <rect x="116" y="184" width="52" height="20" rx="2" fill="#291608"/>
+            <rect x="116" y="208" width="64" height="3" rx="1.5" fill="#faf6ed" opacity="0.35"/>
+            <rect x="116" y="215" width="42" height="3" rx="1.5" fill="#b8922a" opacity="0.8"/>
+            <rect x="216" y="184" width="52" height="20" rx="2" fill="#291608"/>
+            <rect x="216" y="208" width="64" height="3" rx="1.5" fill="#faf6ed" opacity="0.35"/>
+            <rect x="216" y="215" width="42" height="3" rx="1.5" fill="#b8922a" opacity="0.8"/>
+            <rect x="316" y="184" width="52" height="20" rx="2" fill="#291608"/>
+            <rect x="316" y="208" width="56" height="3" rx="1.5" fill="#faf6ed" opacity="0.35"/>
+            <rect x="316" y="215" width="38" height="3" rx="1.5" fill="#b8922a" opacity="0.8"/>
+          </svg>
+        </div>
         <div class="bento-info">
           <span class="bento-tag">Food &amp; Hospitality</span>
           <div class="bento-name">Restaurant</div>
@@ -397,7 +436,54 @@
       </a>
 
       <a class="bento-item feat-2" href="hotel.html" role="listitem" aria-label="Hotel project">
-        <div class="bento-visual">🏨</div>
+        <div class="bento-visual">
+          <svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="hotel-g" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3a2818" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#1a0e06" stop-opacity="0.85"/>
+              </linearGradient>
+            </defs>
+            <rect width="400" height="240" fill="#1a1818"/>
+            <rect width="400" height="28" fill="#252222"/>
+            <circle cx="16" cy="14" r="4" fill="#ff5f57"/><circle cx="29" cy="14" r="4" fill="#febc2e"/><circle cx="42" cy="14" r="4" fill="#28c840"/>
+            <rect x="58" y="8" width="180" height="12" rx="6" fill="#333030"/>
+            <rect y="28" width="400" height="212" fill="#f2ede4"/>
+            <rect y="28" width="400" height="30" fill="#f8f4ee"/>
+            <rect y="57" width="400" height="1" fill="#e0d8cc"/>
+            <rect x="16" y="36" width="82" height="9" rx="2" fill="#2c2319" opacity="0.8"/>
+            <rect x="196" y="39" width="30" height="4" rx="2" fill="#7a6a58" opacity="0.6"/>
+            <rect x="238" y="39" width="30" height="4" rx="2" fill="#7a6a58" opacity="0.6"/>
+            <rect x="280" y="39" width="30" height="4" rx="2" fill="#7a6a58" opacity="0.6"/>
+            <rect x="334" y="33" width="54" height="14" rx="2" fill="#2c2319"/>
+            <rect y="58" width="400" height="108" fill="#4a3826"/>
+            <rect y="58" width="400" height="108" fill="url(#hotel-g)"/>
+            <rect x="140" y="73" width="120" height="5" rx="2.5" fill="#c9a84c" opacity="0.8"/>
+            <rect x="95" y="84" width="210" height="13" rx="3" fill="#f2ede4" opacity="0.95"/>
+            <rect x="125" y="102" width="150" height="5" rx="2.5" fill="#f2ede4" opacity="0.55"/>
+            <rect x="150" y="116" width="100" height="18" rx="2" fill="#c9a84c"/>
+            <rect x="28" y="153" width="344" height="28" rx="4" fill="white"/>
+            <rect x="38" y="160" width="55" height="4" rx="2" fill="#2c2319" opacity="0.55"/>
+            <rect x="38" y="168" width="72" height="3" rx="1.5" fill="#c9a84c" opacity="0.5"/>
+            <rect x="136" y="160" width="55" height="4" rx="2" fill="#2c2319" opacity="0.55"/>
+            <rect x="136" y="168" width="72" height="3" rx="1.5" fill="#c9a84c" opacity="0.5"/>
+            <rect x="234" y="160" width="55" height="4" rx="2" fill="#2c2319" opacity="0.55"/>
+            <rect x="234" y="168" width="72" height="3" rx="1.5" fill="#c9a84c" opacity="0.5"/>
+            <rect x="322" y="157" width="42" height="18" rx="2" fill="#c9a84c"/>
+            <rect x="8" y="190" width="122" height="45" rx="3" fill="white" opacity="0.92"/>
+            <rect x="138" y="190" width="122" height="45" rx="3" fill="white" opacity="0.92"/>
+            <rect x="268" y="190" width="124" height="45" rx="3" fill="white" opacity="0.92"/>
+            <rect x="16" y="196" width="82" height="20" rx="2" fill="#e8ddd0"/>
+            <rect x="16" y="220" width="62" height="3" rx="1.5" fill="#7a6a58" opacity="0.5"/>
+            <rect x="16" y="227" width="40" height="3" rx="1.5" fill="#c9a84c" opacity="0.7"/>
+            <rect x="146" y="196" width="82" height="20" rx="2" fill="#e8ddd0"/>
+            <rect x="146" y="220" width="62" height="3" rx="1.5" fill="#7a6a58" opacity="0.5"/>
+            <rect x="146" y="227" width="40" height="3" rx="1.5" fill="#c9a84c" opacity="0.7"/>
+            <rect x="276" y="196" width="82" height="20" rx="2" fill="#e8ddd0"/>
+            <rect x="276" y="220" width="62" height="3" rx="1.5" fill="#7a6a58" opacity="0.5"/>
+            <rect x="276" y="227" width="40" height="3" rx="1.5" fill="#c9a84c" opacity="0.7"/>
+          </svg>
+        </div>
         <div class="bento-info">
           <span class="bento-tag">Hospitality</span>
           <div class="bento-name">Hotel &amp; Resort</div>
@@ -407,7 +493,46 @@
       </a>
 
       <a class="bento-item sm-1" href="coffee-shop.html" role="listitem" aria-label="Coffee Shop project">
-        <div class="bento-visual">☕</div>
+        <div class="bento-visual">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="coffee-g" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#2a1a0e" stop-opacity="0.6"/>
+                <stop offset="100%" stop-color="#0e0806" stop-opacity="0.97"/>
+              </linearGradient>
+            </defs>
+            <rect width="320" height="200" fill="#1a1a1a"/>
+            <rect width="320" height="24" fill="#252525"/>
+            <circle cx="13" cy="12" r="3.5" fill="#ff5f57"/><circle cx="24" cy="12" r="3.5" fill="#febc2e"/><circle cx="35" cy="12" r="3.5" fill="#28c840"/>
+            <rect x="48" y="7" width="140" height="10" rx="5" fill="#333"/>
+            <rect y="24" width="320" height="176" fill="#f5ede0"/>
+            <rect y="24" width="320" height="28" fill="#2a1a0e"/>
+            <rect x="14" y="33" width="46" height="8" rx="2" fill="#c4863a"/>
+            <rect x="164" y="35" width="26" height="4" rx="2" fill="#f5ede0" opacity="0.4"/>
+            <rect x="202" y="35" width="26" height="4" rx="2" fill="#f5ede0" opacity="0.4"/>
+            <rect x="240" y="35" width="26" height="4" rx="2" fill="#f5ede0" opacity="0.4"/>
+            <rect x="280" y="29" width="32" height="14" rx="2" fill="#c4863a"/>
+            <rect y="52" width="320" height="88" fill="#1a0e06"/>
+            <rect y="52" width="320" height="88" fill="url(#coffee-g)"/>
+            <rect x="95" y="68" width="130" height="11" rx="3" fill="#f5ede0" opacity="0.93"/>
+            <rect x="115" y="83" width="90" height="5" rx="2.5" fill="#c4863a" opacity="0.9"/>
+            <rect x="108" y="96" width="104" height="16" rx="2" fill="#c4863a"/>
+            <rect y="140" width="320" height="60" fill="#f5ede0"/>
+            <rect x="100" y="145" width="120" height="5" rx="2.5" fill="#2a1a0e" opacity="0.4"/>
+            <rect x="10" y="156" width="90" height="40" rx="3" fill="#ede4d5"/>
+            <rect x="115" y="156" width="90" height="40" rx="3" fill="#ede4d5"/>
+            <rect x="220" y="156" width="90" height="40" rx="3" fill="#ede4d5"/>
+            <rect x="18" y="162" width="58" height="16" rx="2" fill="#d4cabb"/>
+            <rect x="18" y="182" width="55" height="3" rx="1.5" fill="#2a1a0e" opacity="0.35"/>
+            <rect x="18" y="188" width="36" height="3" rx="1.5" fill="#c4863a" opacity="0.7"/>
+            <rect x="123" y="162" width="58" height="16" rx="2" fill="#d4cabb"/>
+            <rect x="123" y="182" width="55" height="3" rx="1.5" fill="#2a1a0e" opacity="0.35"/>
+            <rect x="123" y="188" width="36" height="3" rx="1.5" fill="#c4863a" opacity="0.7"/>
+            <rect x="228" y="162" width="58" height="16" rx="2" fill="#d4cabb"/>
+            <rect x="228" y="182" width="55" height="3" rx="1.5" fill="#2a1a0e" opacity="0.35"/>
+            <rect x="228" y="188" width="36" height="3" rx="1.5" fill="#c4863a" opacity="0.7"/>
+          </svg>
+        </div>
         <div class="bento-info">
           <span class="bento-tag">Retail</span>
           <div class="bento-name">Coffee Shop</div>
@@ -417,7 +542,40 @@
       </a>
 
       <a class="bento-item sm-2" href="gym.html" role="listitem" aria-label="Gym project">
-        <div class="bento-visual">💪</div>
+        <div class="bento-visual">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="320" height="200" fill="#1a1a1a"/>
+            <rect width="320" height="24" fill="#252525"/>
+            <circle cx="13" cy="12" r="3.5" fill="#ff5f57"/><circle cx="24" cy="12" r="3.5" fill="#febc2e"/><circle cx="35" cy="12" r="3.5" fill="#28c840"/>
+            <rect x="48" y="7" width="140" height="10" rx="5" fill="#333"/>
+            <rect y="24" width="320" height="176" fill="#0a0a0a"/>
+            <rect y="24" width="320" height="28" fill="#0f0f0f"/>
+            <rect y="51" width="320" height="1" fill="#2a2a2a"/>
+            <rect x="14" y="33" width="34" height="8" rx="1" fill="#f0eeeb" opacity="0.9"/>
+            <rect x="48" y="33" width="18" height="8" rx="1" fill="#ff5500"/>
+            <rect x="160" y="35" width="25" height="4" rx="2" fill="#888580" opacity="0.5"/>
+            <rect x="196" y="35" width="25" height="4" rx="2" fill="#888580" opacity="0.5"/>
+            <rect x="232" y="35" width="25" height="4" rx="2" fill="#888580" opacity="0.5"/>
+            <rect x="278" y="29" width="32" height="14" rx="0" fill="#ff5500"/>
+            <rect y="52" width="4" height="148" fill="#ff5500" opacity="0.9"/>
+            <rect x="14" y="64" width="185" height="13" rx="2" fill="#f0eeeb" opacity="0.92"/>
+            <rect x="14" y="82" width="160" height="13" rx="2" fill="#f0eeeb" opacity="0.92"/>
+            <rect x="14" y="100" width="115" height="9" rx="2" fill="#ff5500"/>
+            <rect x="14" y="115" width="210" height="3" rx="1.5" fill="#888580" opacity="0.45"/>
+            <rect x="14" y="122" width="185" height="3" rx="1.5" fill="#888580" opacity="0.45"/>
+            <rect x="14" y="133" width="68" height="17" rx="0" fill="#ff5500"/>
+            <rect x="90" y="133" width="68" height="17" rx="0" fill="none" stroke="#f0eeeb" stroke-width="0.8" opacity="0.3"/>
+            <rect y="162" width="320" height="38" fill="#111111"/>
+            <rect x="22" y="170" width="30" height="8" rx="2" fill="#ff5500" opacity="0.8"/>
+            <rect x="22" y="182" width="42" height="3" rx="1.5" fill="#888580" opacity="0.45"/>
+            <rect x="102" y="170" width="30" height="8" rx="2" fill="#ff5500" opacity="0.8"/>
+            <rect x="102" y="182" width="42" height="3" rx="1.5" fill="#888580" opacity="0.45"/>
+            <rect x="182" y="170" width="30" height="8" rx="2" fill="#ff5500" opacity="0.8"/>
+            <rect x="182" y="182" width="42" height="3" rx="1.5" fill="#888580" opacity="0.45"/>
+            <rect x="262" y="170" width="30" height="8" rx="2" fill="#ff5500" opacity="0.8"/>
+            <rect x="262" y="182" width="42" height="3" rx="1.5" fill="#888580" opacity="0.45"/>
+          </svg>
+        </div>
         <div class="bento-info">
           <span class="bento-tag">Fitness</span>
           <div class="bento-name">Gym &amp; Fitness</div>
@@ -427,7 +585,50 @@
       </a>
 
       <a class="bento-item sm-3" href="fashion-retail.html" role="listitem" aria-label="Fashion Retail project">
-        <div class="bento-visual">👗</div>
+        <div class="bento-visual">
+          <svg viewBox="0 0 380 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="380" height="200" fill="#1a1a1a"/>
+            <rect width="380" height="24" fill="#252525"/>
+            <circle cx="13" cy="12" r="3.5" fill="#ff5f57"/><circle cx="24" cy="12" r="3.5" fill="#febc2e"/><circle cx="35" cy="12" r="3.5" fill="#28c840"/>
+            <rect x="48" y="7" width="160" height="10" rx="5" fill="#333"/>
+            <rect y="24" width="380" height="176" fill="#f8f5f0"/>
+            <rect y="24" width="380" height="28" fill="#f8f5f0"/>
+            <rect y="51" width="380" height="1" fill="#e0dbd4"/>
+            <rect x="18" y="33" width="52" height="8" rx="1" fill="#0a0a0a" opacity="0.85"/>
+            <rect x="164" y="35" width="28" height="4" rx="2" fill="#888" opacity="0.5"/>
+            <rect x="204" y="35" width="28" height="4" rx="2" fill="#888" opacity="0.5"/>
+            <rect x="244" y="35" width="28" height="4" rx="2" fill="#888" opacity="0.5"/>
+            <rect x="336" y="29" width="36" height="14" rx="0" fill="#0a0a0a"/>
+            <rect y="52" width="192" height="90" fill="#e8e3dc"/>
+            <rect x="192" y="52" width="188" height="90" fill="#2a2320"/>
+            <rect x="18" y="67" width="148" height="10" rx="2" fill="#0a0a0a" opacity="0.8"/>
+            <rect x="18" y="82" width="128" height="10" rx="2" fill="#0a0a0a" opacity="0.8"/>
+            <rect x="18" y="97" width="82" height="8" rx="2" fill="#d92b1a"/>
+            <rect x="18" y="112" width="58" height="14" rx="0" fill="#0a0a0a"/>
+            <line x1="210" y1="62" x2="372" y2="62" stroke="#3a3330" stroke-width="1.5"/>
+            <rect x="218" y="62" width="20" height="54" rx="2" fill="#4a4040"/>
+            <rect x="248" y="62" width="20" height="54" rx="2" fill="#5a5050"/>
+            <rect x="278" y="62" width="20" height="54" rx="2" fill="#4a4040"/>
+            <rect x="308" y="62" width="20" height="54" rx="2" fill="#3a3030"/>
+            <rect x="338" y="62" width="20" height="54" rx="2" fill="#4a4040"/>
+            <rect x="10" y="152" width="84" height="44" rx="2" fill="#ede8e0"/>
+            <rect x="104" y="152" width="84" height="44" rx="2" fill="#ede8e0"/>
+            <rect x="198" y="152" width="84" height="44" rx="2" fill="#ede8e0"/>
+            <rect x="292" y="152" width="80" height="44" rx="2" fill="#ede8e0"/>
+            <rect x="10" y="152" width="84" height="28" rx="2" fill="#d8d0c5"/>
+            <rect x="104" y="152" width="84" height="28" rx="2" fill="#d8d0c5"/>
+            <rect x="198" y="152" width="84" height="28" rx="2" fill="#d8d0c5"/>
+            <rect x="292" y="152" width="80" height="28" rx="2" fill="#d8d0c5"/>
+            <rect x="14" y="183" width="52" height="3" rx="1.5" fill="#0a0a0a" opacity="0.4"/>
+            <rect x="14" y="189" width="34" height="3" rx="1.5" fill="#d92b1a" opacity="0.7"/>
+            <rect x="108" y="183" width="52" height="3" rx="1.5" fill="#0a0a0a" opacity="0.4"/>
+            <rect x="108" y="189" width="34" height="3" rx="1.5" fill="#d92b1a" opacity="0.7"/>
+            <rect x="202" y="183" width="52" height="3" rx="1.5" fill="#0a0a0a" opacity="0.4"/>
+            <rect x="202" y="189" width="34" height="3" rx="1.5" fill="#d92b1a" opacity="0.7"/>
+            <rect x="296" y="183" width="52" height="3" rx="1.5" fill="#0a0a0a" opacity="0.4"/>
+            <rect x="296" y="189" width="34" height="3" rx="1.5" fill="#d92b1a" opacity="0.7"/>
+          </svg>
+        </div>
         <div class="bento-info">
           <span class="bento-tag">E-Commerce</span>
           <div class="bento-name">Fashion Retail</div>
@@ -437,7 +638,51 @@
       </a>
 
       <a class="bento-item sm-4" href="real-estate.html" role="listitem" aria-label="Real Estate project">
-        <div class="bento-visual">🏠</div>
+        <div class="bento-visual">
+          <svg viewBox="0 0 380 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="380" height="200" fill="#1a1a1a"/>
+            <rect width="380" height="24" fill="#252525"/>
+            <circle cx="13" cy="12" r="3.5" fill="#ff5f57"/><circle cx="24" cy="12" r="3.5" fill="#febc2e"/><circle cx="35" cy="12" r="3.5" fill="#28c840"/>
+            <rect x="48" y="7" width="160" height="10" rx="5" fill="#333"/>
+            <rect y="24" width="380" height="176" fill="#f8f7f5"/>
+            <rect y="24" width="380" height="28" fill="white"/>
+            <rect y="51" width="380" height="1" fill="#e4e2dc"/>
+            <rect x="14" y="32" width="14" height="14" rx="3" fill="#1e3a5f"/>
+            <rect x="32" y="35" width="52" height="7" rx="2" fill="#1c1c1a" opacity="0.75"/>
+            <rect x="162" y="35" width="26" height="4" rx="2" fill="#6b6a65" opacity="0.5"/>
+            <rect x="200" y="35" width="26" height="4" rx="2" fill="#6b6a65" opacity="0.5"/>
+            <rect x="238" y="35" width="26" height="4" rx="2" fill="#6b6a65" opacity="0.5"/>
+            <rect x="294" y="30" width="40" height="14" rx="2" fill="none" stroke="#1c1c1a" stroke-width="0.8" opacity="0.6"/>
+            <rect x="342" y="30" width="28" height="14" rx="2" fill="#1e3a5f"/>
+            <rect y="52" width="198" height="90" fill="#f0eeea"/>
+            <rect x="198" y="52" width="182" height="90" fill="#1e3a5f"/>
+            <rect x="16" y="64" width="162" height="11" rx="2" fill="#1c1c1a" opacity="0.8"/>
+            <rect x="16" y="80" width="142" height="11" rx="2" fill="#1c1c1a" opacity="0.8"/>
+            <rect x="16" y="96" width="100" height="4" rx="2" fill="#1c1c1a" opacity="0.3"/>
+            <rect x="16" y="106" width="166" height="22" rx="4" fill="white" stroke="#e4e2dc" stroke-width="1"/>
+            <rect x="24" y="115" width="82" height="4" rx="2" fill="#6b6a65" opacity="0.4"/>
+            <rect x="158" y="110" width="16" height="12" rx="2" fill="#1e3a5f"/>
+            <rect x="218" y="62" width="144" height="68" rx="3" fill="#162e4a"/>
+            <rect x="238" y="78" width="10" height="36" rx="1" fill="#c9a84c" opacity="0.4"/>
+            <rect x="256" y="70" width="10" height="44" rx="1" fill="#c9a84c" opacity="0.65"/>
+            <rect x="274" y="74" width="10" height="40" rx="1" fill="#c9a84c" opacity="0.5"/>
+            <rect x="292" y="66" width="10" height="48" rx="1" fill="#c9a84c" opacity="0.75"/>
+            <rect x="310" y="80" width="10" height="34" rx="1" fill="#c9a84c" opacity="0.4"/>
+            <rect x="328" y="72" width="10" height="42" rx="1" fill="#c9a84c" opacity="0.55"/>
+            <rect x="10" y="152" width="114" height="44" rx="3" fill="white" stroke="#e4e2dc" stroke-width="1"/>
+            <rect x="132" y="152" width="114" height="44" rx="3" fill="white" stroke="#e4e2dc" stroke-width="1"/>
+            <rect x="254" y="152" width="116" height="44" rx="3" fill="white" stroke="#e4e2dc" stroke-width="1"/>
+            <rect x="18" y="158" width="78" height="18" rx="2" fill="#e8e5de"/>
+            <rect x="18" y="179" width="60" height="3" rx="1.5" fill="#1c1c1a" opacity="0.4"/>
+            <rect x="18" y="186" width="40" height="3" rx="1.5" fill="#c9a84c" opacity="0.8"/>
+            <rect x="140" y="158" width="78" height="18" rx="2" fill="#e8e5de"/>
+            <rect x="140" y="179" width="60" height="3" rx="1.5" fill="#1c1c1a" opacity="0.4"/>
+            <rect x="140" y="186" width="40" height="3" rx="1.5" fill="#c9a84c" opacity="0.8"/>
+            <rect x="262" y="158" width="78" height="18" rx="2" fill="#e8e5de"/>
+            <rect x="262" y="179" width="60" height="3" rx="1.5" fill="#1c1c1a" opacity="0.4"/>
+            <rect x="262" y="186" width="40" height="3" rx="1.5" fill="#c9a84c" opacity="0.8"/>
+          </svg>
+        </div>
         <div class="bento-info">
           <span class="bento-tag">Property</span>
           <div class="bento-name">Real Estate</div>
@@ -446,8 +691,53 @@
         <div class="bento-arrow">↗</div>
       </a>
 
-      <a class="bento-item sm-5" href="farm-market.html" role="listitem" aria-label="Farm Market project">
-        <div class="bento-visual">🌾</div>
+      <a class="bento-item sm-6" href="farm-market.html" role="listitem" aria-label="Farm Market project">
+        <div class="bento-visual">
+          <svg viewBox="0 0 380 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <rect width="380" height="200" fill="#1a1a1a"/>
+            <rect width="380" height="24" fill="#252525"/>
+            <circle cx="13" cy="12" r="3.5" fill="#ff5f57"/><circle cx="24" cy="12" r="3.5" fill="#febc2e"/><circle cx="35" cy="12" r="3.5" fill="#28c840"/>
+            <rect x="48" y="7" width="160" height="10" rx="5" fill="#333"/>
+            <rect y="24" width="380" height="176" fill="#faf6ed"/>
+            <rect y="24" width="380" height="28" fill="#2c1a0e"/>
+            <rect x="14" y="33" width="72" height="8" rx="2" fill="#f0e4c8" opacity="0.9"/>
+            <rect x="180" y="35" width="28" height="4" rx="2" fill="#f0e4c8" opacity="0.3"/>
+            <rect x="220" y="35" width="28" height="4" rx="2" fill="#f0e4c8" opacity="0.3"/>
+            <rect x="260" y="35" width="28" height="4" rx="2" fill="#f0e4c8" opacity="0.3"/>
+            <rect x="318" y="29" width="52" height="14" rx="2" fill="#4a7040"/>
+            <rect y="52" width="380" height="22" fill="#f0e4c8"/>
+            <rect x="16" y="59" width="58" height="4" rx="2" fill="#6b8c5a" opacity="0.6"/>
+            <rect x="90" y="59" width="58" height="4" rx="2" fill="#6b8c5a" opacity="0.6"/>
+            <rect x="164" y="59" width="58" height="4" rx="2" fill="#6b8c5a" opacity="0.6"/>
+            <rect x="238" y="59" width="58" height="4" rx="2" fill="#6b8c5a" opacity="0.6"/>
+            <rect x="312" y="59" width="52" height="4" rx="2" fill="#6b8c5a" opacity="0.6"/>
+            <rect y="74" width="188" height="72" fill="#faf6ed"/>
+            <rect x="188" y="74" width="192" height="72" fill="#f0e4c8"/>
+            <rect x="14" y="83" width="38" height="3" rx="1.5" fill="#4a7040" opacity="0.8"/>
+            <rect x="14" y="92" width="158" height="9" rx="2" fill="#2c1a0e" opacity="0.8"/>
+            <rect x="14" y="106" width="135" height="9" rx="2" fill="#2c1a0e" opacity="0.8"/>
+            <rect x="14" y="120" width="55" height="14" rx="2" fill="#4a7040"/>
+            <rect x="76" y="120" width="55" height="14" rx="2" fill="none" stroke="#2c1a0e" stroke-width="0.8" opacity="0.4"/>
+            <rect x="196" y="80" width="176" height="60" rx="3" fill="#c8b88a" opacity="0.55"/>
+            <rect y="146" width="380" height="54" fill="#faf6ed"/>
+            <rect x="8" y="150" width="84" height="44" rx="3" fill="#f0e4c8"/>
+            <rect x="100" y="150" width="84" height="44" rx="3" fill="#f0e4c8"/>
+            <rect x="192" y="150" width="84" height="44" rx="3" fill="#f0e4c8"/>
+            <rect x="284" y="150" width="88" height="44" rx="3" fill="#f0e4c8"/>
+            <circle cx="50" cy="168" r="13" fill="#c94a2b" opacity="0.65"/>
+            <circle cx="142" cy="168" r="13" fill="#4a7040" opacity="0.65"/>
+            <circle cx="234" cy="168" r="13" fill="#f0a830" opacity="0.7"/>
+            <circle cx="328" cy="168" r="13" fill="#6b8c5a" opacity="0.55"/>
+            <rect x="14" y="184" width="52" height="3" rx="1.5" fill="#2c1a0e" opacity="0.4"/>
+            <rect x="14" y="190" width="36" height="3" rx="1.5" fill="#c94a2b" opacity="0.7"/>
+            <rect x="106" y="184" width="52" height="3" rx="1.5" fill="#2c1a0e" opacity="0.4"/>
+            <rect x="106" y="190" width="36" height="3" rx="1.5" fill="#4a7040" opacity="0.7"/>
+            <rect x="198" y="184" width="52" height="3" rx="1.5" fill="#2c1a0e" opacity="0.4"/>
+            <rect x="198" y="190" width="36" height="3" rx="1.5" fill="#c94a2b" opacity="0.6"/>
+            <rect x="290" y="184" width="52" height="3" rx="1.5" fill="#2c1a0e" opacity="0.4"/>
+            <rect x="290" y="190" width="36" height="3" rx="1.5" fill="#4a7040" opacity="0.7"/>
+          </svg>
+        </div>
         <div class="bento-info">
           <span class="bento-tag">Agriculture</span>
           <div class="bento-name">Farm Market</div>
@@ -456,8 +746,63 @@
         <div class="bento-arrow">↗</div>
       </a>
 
-      <a class="bento-item sm-5" href="saas-startup.html" role="listitem" aria-label="SaaS Startup project">
-        <div class="bento-visual">🚀</div>
+      <a class="bento-item sm-6" href="saas-startup.html" role="listitem" aria-label="SaaS Startup project">
+        <div class="bento-visual">
+          <svg viewBox="0 0 380 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="saas-g1" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.9"/>
+              </linearGradient>
+              <linearGradient id="saas-g2" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.7"/>
+                <stop offset="100%" stop-color="#00d4ff" stop-opacity="0.7"/>
+              </linearGradient>
+            </defs>
+            <rect width="380" height="200" fill="#1a1a1a"/>
+            <rect width="380" height="24" fill="#252525"/>
+            <circle cx="13" cy="12" r="3.5" fill="#ff5f57"/><circle cx="24" cy="12" r="3.5" fill="#febc2e"/><circle cx="35" cy="12" r="3.5" fill="#28c840"/>
+            <rect x="48" y="7" width="160" height="10" rx="5" fill="#333"/>
+            <rect y="24" width="380" height="176" fill="#050a12"/>
+            <circle cx="190" cy="110" r="130" fill="#7c3aed" opacity="0.055"/>
+            <circle cx="190" cy="80" r="85" fill="#00d4ff" opacity="0.055"/>
+            <rect y="24" width="380" height="28" fill="#0c1424"/>
+            <rect y="51" width="380" height="1" fill="#1a2840"/>
+            <polygon points="22,29 30,33 30,43 22,47 14,43 14,33" fill="none" stroke="#00d4ff" stroke-width="1.2"/>
+            <circle cx="22" cy="38" r="2" fill="#00d4ff"/>
+            <rect x="36" y="34" width="52" height="8" rx="2" fill="#c8d8f0" opacity="0.8"/>
+            <rect x="170" y="35" width="26" height="4" rx="2" fill="#4a6080" opacity="0.6"/>
+            <rect x="208" y="35" width="26" height="4" rx="2" fill="#4a6080" opacity="0.6"/>
+            <rect x="246" y="35" width="26" height="4" rx="2" fill="#4a6080" opacity="0.6"/>
+            <rect x="288" y="30" width="42" height="14" rx="2" fill="none" stroke="#1a2840" stroke-width="1"/>
+            <rect x="340" y="30" width="30" height="14" rx="2" fill="#00d4ff" opacity="0.9"/>
+            <rect x="140" y="58" width="100" height="14" rx="7" fill="#1a2840"/>
+            <rect x="150" y="63" width="80" height="4" rx="2" fill="#00d4ff" opacity="0.55"/>
+            <rect x="55" y="78" width="270" height="12" rx="3" fill="url(#saas-g1)"/>
+            <rect x="85" y="95" width="210" height="12" rx="3" fill="url(#saas-g2)"/>
+            <rect x="108" y="113" width="164" height="4" rx="2" fill="#4a6080" opacity="0.5"/>
+            <rect x="120" y="121" width="140" height="4" rx="2" fill="#4a6080" opacity="0.5"/>
+            <rect x="100" y="132" width="82" height="18" rx="3" fill="#00d4ff" opacity="0.9"/>
+            <rect x="192" y="132" width="82" height="18" rx="3" fill="none" stroke="#1a2840" stroke-width="1.2"/>
+            <rect x="8" y="158" width="84" height="38" rx="3" fill="#0c1424" stroke="#1a2840" stroke-width="1"/>
+            <rect x="100" y="158" width="84" height="38" rx="3" fill="#0c1424" stroke="#1a2840" stroke-width="1"/>
+            <rect x="192" y="158" width="84" height="38" rx="3" fill="#0c1424" stroke="#1a2840" stroke-width="1"/>
+            <rect x="284" y="158" width="88" height="38" rx="3" fill="#0c1424" stroke="#1a2840" stroke-width="1"/>
+            <rect x="16" y="163" width="8" height="8" rx="2" fill="#00d4ff" opacity="0.6"/>
+            <rect x="28" y="165" width="52" height="4" rx="2" fill="#c8d8f0" opacity="0.45"/>
+            <rect x="16" y="175" width="62" height="3" rx="1.5" fill="#4a6080" opacity="0.5"/>
+            <rect x="16" y="182" width="48" height="3" rx="1.5" fill="#4a6080" opacity="0.5"/>
+            <rect x="108" y="163" width="8" height="8" rx="2" fill="#7c3aed" opacity="0.7"/>
+            <rect x="120" y="165" width="52" height="4" rx="2" fill="#c8d8f0" opacity="0.45"/>
+            <rect x="108" y="175" width="62" height="3" rx="1.5" fill="#4a6080" opacity="0.5"/>
+            <rect x="200" y="163" width="8" height="8" rx="2" fill="#00ff88" opacity="0.5"/>
+            <rect x="212" y="165" width="52" height="4" rx="2" fill="#c8d8f0" opacity="0.45"/>
+            <rect x="200" y="175" width="62" height="3" rx="1.5" fill="#4a6080" opacity="0.5"/>
+            <rect x="292" y="163" width="8" height="8" rx="2" fill="#00d4ff" opacity="0.4"/>
+            <rect x="304" y="165" width="52" height="4" rx="2" fill="#c8d8f0" opacity="0.45"/>
+            <rect x="292" y="175" width="62" height="3" rx="1.5" fill="#4a6080" opacity="0.5"/>
+          </svg>
+        </div>
         <div class="bento-info">
           <span class="bento-tag">Tech / SaaS</span>
           <div class="bento-name">SaaS Startup</div>
@@ -466,15 +811,6 @@
         <div class="bento-arrow">↗</div>
       </a>
 
-      <a class="bento-item sm-5" href="form-widgets.html" role="listitem" aria-label="Form Widget Showcase">
-        <div class="bento-visual">📋</div>
-        <div class="bento-info">
-          <span class="bento-tag">UI / UX Skills</span>
-          <div class="bento-name">Form Widgets</div>
-          <div class="bento-desc">Inputs, selects, date pickers, multi-step flows &amp; real-time validation.</div>
-        </div>
-        <div class="bento-arrow">↗</div>
-      </a>
 
     </div>
   </div>

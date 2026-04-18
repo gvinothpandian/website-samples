@@ -36,12 +36,13 @@
     transition: background 0.4s;
   }
   nav.scrolled { background: rgba(242,237,228,0.95); backdrop-filter: blur(10px); }
-  .nav-logo-wrap { text-align: center; }
+  .nav-logo-wrap { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.1rem; }
   .nav-logo {
     font-family: 'Pinyon Script', cursive;
     font-size: 2.2rem;
     color: var(--dark);
     line-height: 1;
+    display: flex; align-items: center; gap: 0.5rem;
   }
   .nav-logo-sub {
     font-size: 0.55rem;
@@ -526,7 +527,20 @@
     <li><a href="#">Dining</a></li>
   </ul>
   <div class="nav-logo-wrap">
-    <div class="nav-logo">Villa Soleil</div>
+    <div class="nav-logo">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.5" fill="#c9a84c"/>
+        <line x1="12" y1="2" x2="12" y2="5.5" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+        <line x1="12" y1="18.5" x2="12" y2="22" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+        <line x1="2" y1="12" x2="5.5" y2="12" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+        <line x1="18.5" y1="12" x2="22" y2="12" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+        <line x1="4.93" y1="4.93" x2="7.28" y2="7.28" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="16.72" y1="16.72" x2="19.07" y2="19.07" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="4.93" y1="19.07" x2="7.28" y2="16.72" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="16.72" y1="7.28" x2="19.07" y2="4.93" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Villa Soleil
+    </div>
     <div class="nav-logo-sub">Côte d'Azur · Since 1923</div>
   </div>
   <ul class="nav-links" style="justify-content:flex-end">

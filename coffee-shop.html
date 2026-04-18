@@ -65,6 +65,7 @@
     letter-spacing: 0.3em;
     color: var(--cream);
     text-transform: uppercase;
+    display: flex; align-items: center; gap: 0.55rem;
   }
   .nav-links { display: flex; gap: 3rem; list-style: none; }
   .nav-links a {
@@ -448,7 +449,14 @@
 <div class="cursor-ring" id="cursorRing"></div>
 
 <nav>
-  <div class="nav-logo">Moka</div>
+  <div class="nav-logo">
+    <svg width="20" height="22" viewBox="0 0 20 22" fill="none" aria-hidden="true">
+      <path d="M10 1C7 1 4.5 5 4.5 10c0 5 2.5 9.5 5.5 10.5C13 19.5 15.5 15 15.5 10 15.5 5 13 1 10 1z" fill="#c4863a" opacity="0.9"/>
+      <path d="M10 1C9 5.5 9 15.5 10 21.5c1-6 1-16 0-20.5z" fill="#2a1a0e" opacity="0.35"/>
+      <ellipse cx="10" cy="10" rx="2.5" ry="1" fill="#f5ede0" opacity="0.3"/>
+    </svg>
+    Moka
+  </div>
   <ul class="nav-links">
     <li><a href="#about">Story</a></li>
     <li><a href="#menu">Menu</a></li>
